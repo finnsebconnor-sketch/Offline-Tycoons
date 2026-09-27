@@ -3,477 +3,897 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tycoon World Ultra</title>
+<title>Quantum Industrial Overlord Engine: Absolute Edition</title>
 <style>
-/* ================================================================
-   TYCOON WORLD ULTRA EDITION
-   Single-file high-performance offline game engine.
-   Everything is drawn with HTML5 Canvas + CSS animations.
-   ================================================================ */
-
+/* ============================================================================
+   ARCHITECTURAL CORE CSS SYSTEM (SYSTEM DESIGN MATRIX)
+   ============================================================================ */
 :root {
-    --bg: #030508;
-    --panel: #0d111b;
-    --panel2: #131926;
-    --text: #f1f4fa;
-    --muted: #828fa5;
-    --accent: #ffb703;
-    --good: #10b981;
-    --danger: #ef4444;
-    --line: rgba(255,255,255,.06);
-    --glow: 0 0 20px rgba(255,183,3,0.3);
+    --quantum-bg-absolute: #010204;
+    --quantum-bg-deep: #05070c;
+    --quantum-bg-surface: #0a0f1d;
+    --quantum-bg-card: #111827;
+    --quantum-bg-panel: #1e293b;
+    --quantum-border-glow: rgba(56, 189, 248, 0.2);
+    --quantum-text-primary: #f8fafc;
+    --quantum-text-secondary: #94a3b8;
+    --quantum-text-muted: #64748b;
+    --quantum-cyan: #38bdf8;
+    --quantum-emerald: #10b981;
+    --quantum-amber: #f59e0b;
+    --quantum-rose: #f43f5e;
+    --quantum-indigo: #6366f1;
+    --quantum-violet: #8b5cf6;
+    --quantum-fuchsia: #d946ef;
+    --quantum-glow-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+    --quantum-panel-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
-
 * {
     box-sizing: border-box;
-    user-select: none;
-}
-
-html, body {
     margin: 0;
     padding: 0;
-    min-height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    overflow-x: hidden;
+    user-select: none;
+    -webkit-user-drag: none;
 }
-
+html, body {
+    width: 100%;
+    height: 100%;
+    background: var(--quantum-bg-absolute);
+    color: var(--quantum-text-primary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    overflow: hidden;
+}
 button {
     font: inherit;
     border: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    cursor: pointer;
+    background: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--quantum-bg-deep);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--quantum-bg-panel);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--quantum-cyan);
 }
 
-#app {
-    min-height: 100vh;
+/* ============================================================================
+   GLOBAL DASHBOARD ARCHITECTURE
+   ============================================================================ */
+#global-dashboard {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 50px;
+    background: 
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08), transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.08), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.05), transparent 60%),
+        linear-gradient(180deg, #010204 0%, #070b14 100%);
 }
-
-/* ================================================================
-   DASHBOARD HOME SCREEN
-   ================================================================ */
-
-#home {
-    min-height: 100vh;
-    padding: 40px 20px;
-    background:
-        radial-gradient(circle at 10% 20%, rgba(255,183,3,.08), transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(16,185,129,.08), transparent 40%),
-        linear-gradient(180deg, #04060a, #0b0f19 100%);
-}
-
-.home-top {
-    max-width: 1400px;
-    margin: 0 auto 40px;
+.header-container {
+    max-width: 1600px;
+    margin: 0 auto 50px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 30px;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 24px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 35px;
 }
-
-.logo-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo {
-    font-size: clamp(32px, 5vw, 54px);
+.brand-block h1 {
+    font-size: 42px;
     font-weight: 900;
     letter-spacing: -2px;
-    line-height: 1;
     text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 30%, var(--quantum-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-
-.logo span {
-    color: var(--accent);
-    text-shadow: var(--glow);
+.brand-block h1 span {
+    color: var(--quantum-cyan);
+    -webkit-text-fill-color: initial;
+    text-shadow: var(--quantum-glow-shadow);
 }
-
-.subtitle {
-    color: var(--muted);
-    margin-top: 6px;
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.stats {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.stat {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 12px 20px;
-    min-width: 140px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.stat small {
-    display: block;
-    color: var(--muted);
+.brand-block p {
+    color: var(--quantum-text-secondary);
     font-size: 11px;
+    margin-top: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 3px;
 }
-
-.stat strong {
-    display: block;
-    margin-top: 4px;
-    font-size: 20px;
-    color: var(--good);
+.summary-metrics {
+    display: flex;
+    gap: 25px;
 }
-
-.game-grid {
-    max-width: 1400px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-}
-
-.game-card {
+.metric-card {
+    background: var(--quantum-bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 20px 30px;
+    border-radius: 20px;
+    min-width: 220px;
+    box-shadow: var(--quantum-panel-shadow);
     position: relative;
-    min-height: 250px;
-    padding: 24px;
-    border-radius: 24px;
-    border: 1px solid var(--line);
-    background: linear-gradient(145deg, #0d121f, #070a12);
     overflow: hidden;
+}
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--quantum-cyan), transparent);
+}
+.metric-card small {
+    display: block;
+    font-size: 10px;
+    color: var(--quantum-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.metric-card strong {
+    display: block;
+    font-size: 26px;
+    margin-top: 8px;
+    color: var(--quantum-emerald);
+    font-weight: 800;
+}
+.matrix-grid {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 30px;
+}
+.sector-node {
+    background: linear-gradient(145deg, #0b1120, #040712);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    padding: 30px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    min-height: 320px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
 }
-
-.game-card:hover {
-    transform: translateY(-6px);
-    border-color: var(--accent);
-    box-shadow: 0 12px 30px rgba(255,183,3,0.1);
+.sector-node:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--quantum-cyan);
+    box-shadow: 0 30px 60px rgba(56, 189, 248, 0.08);
 }
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.game-card .big-icon {
-    font-size: 48px;
-    background: rgba(255,255,255,0.03);
-    padding: 12px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.game-card h2 {
-    margin: 16px 0 6px;
-    font-size: 22px;
+.node-top h2 {
+    font-size: 24px;
     font-weight: 800;
-}
-
-.game-card p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.card-footer {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-}
-
-.game-card .play {
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: var(--accent);
-    color: #000;
-    font-weight: 800;
-    font-size: 13px;
-}
-
-.game-card.locked {
-    opacity: 0.6;
-}
-
-.game-card.locked .play {
-    background: #222c3e;
-    color: var(--muted);
-}
-
-/* ================================================================
-   GAMEPLAY SCREEN UI LAYOUT
-   ================================================================ */
-
-#gameScreen {
-    display: none;
-    min-height: 100vh;
-    background: #040609;
-    flex-direction: column;
-}
-
-.game-bar {
-    height: 74px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 0 24px;
-    background: rgba(13, 17, 27, 0.95);
-    border-bottom: 1px solid var(--line);
-    backdrop-filter: blur(10px);
-    z-index: 20;
-}
-
-.game-title {
-    flex: 1;
-    min-width: 0;
-}
-
-.game-title strong {
-    display: block;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.game-title span {
-    display: block;
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 1px;
-}
-
-.stats-container {
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 12px;
 }
-
-.money-box, .level-box {
-    padding: 10px 16px;
-    border-radius: 12px;
+.node-top p {
+    color: var(--quantum-text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+}
+.node-analytics {
+    margin-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 20px;
+}
+.analytics-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.analytics-row span { color: var(--quantum-text-muted); }
+.analytics-row b { color: var(--quantum-text-primary); }
+.node-action-area {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.launch-trigger {
+    padding: 14px 24px;
+    border-radius: 14px;
+    background: var(--quantum-cyan);
+    color: #020306;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+}
+.sector-node.locked-node {
+    opacity: 0.45;
+}
+.sector-node.locked-node .launch-trigger {
+    background: #334155;
+    color: var(--quantum-text-secondary);
+    box-shadow: none;
+}
+
+/* ============================================================================
+   REALTIME SIMULATOR DESKTOP LAYOUT
+   ============================================================================ */
+#quantum-simulator {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+    background: #020306;
+}
+.sim-navbar {
+    height: 85px;
+    background: rgba(10, 15, 28, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(24px);
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 100;
 }
-
-.money-box {
-    background: rgba(16,185,129,.12);
-    border: 1px solid rgba(16,185,129,.3);
-    color: #34d399;
+.navbar-left-wing {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
-
-.level-box {
-    background: rgba(255,183,3,.12);
-    border: 1px solid rgba(255,183,3,.3);
-    color: #fbbf24;
-}
-
-.bar-btn {
-    border: 1px solid var(--line);
-    color: var(--text);
-    background: #1c2333;
-    border-radius: 12px;
-    padding: 10px 16px;
-    cursor: pointer;
+.btn-liquidate {
+    padding: 12px 22px;
+    background: #1e293b;
+    color: var(--quantum-text-primary);
     font-weight: 700;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
-
-.bar-btn:hover {
-    background: #273147;
-    border-color: rgba(255,255,255,0.15);
+.btn-liquidate:hover {
+    background: var(--quantum-rose);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
 }
-
-#canvasWrap {
-    position: relative;
+.sim-identity strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+.sim-identity span {
+    display: block;
+    font-size: 11px;
+    color: var(--quantum-text-secondary);
+    margin-top: 3px;
+    text-transform: uppercase;
+}
+.navbar-right-wing {
+    display: flex;
+    gap: 20px;
+}
+.hud-status-capsule {
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.02);
+}
+.hud-status-capsule.cash-capsule {
+    color: var(--quantum-emerald);
+    border-color: rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.04);
+}
+.hud-status-capsule.ai-capsule {
+    color: var(--quantum-cyan);
+    border-color: rgba(56, 189, 248, 0.2);
+    background: rgba(56, 189, 248, 0.04);
+}
+#simulation-viewport {
     width: 100%;
     flex: 1;
+    position: relative;
     overflow: hidden;
-    background: #080b11;
 }
-
-#world {
+#engineRenderPlane {
     display: block;
     width: 100%;
     height: 100%;
 }
 
-/* ================================================================
-   HEADS UP HUD BOARDS
-   ================================================================ */
-
-#hud {
+/* ============================================================================
+   HUD CONTROL INTERFACE OVERLAYS
+   ============================================================================ */
+#heads-up-display-container {
     position: absolute;
-    left: 20px;
-    top: 20px;
-    width: 320px;
+    top: 30px;
+    left: 30px;
+    width: 400px;
     pointer-events: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 20px;
+    z-index: 50;
 }
-
-.hud-card {
-    background: rgba(11, 15, 24, 0.85);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 18px;
-    padding: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+.hud-glass-panel {
+    background: rgba(10, 15, 28, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--quantum-panel-shadow);
     pointer-events: auto;
 }
-
-.hud-card h3 {
-    margin: 0 0 10px 0;
-    font-size: 14px;
+.hud-glass-panel h3 {
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--muted);
+    letter-spacing: 1.5px;
+    color: var(--quantum-text-secondary);
+    margin-bottom: 16px;
+    border-left: 3px solid var(--quantum-cyan);
+    padding-left: 10px;
 }
-
-.objective {
+.objective-panel p {
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.6;
+    color: var(--quantum-text-primary);
 }
-
-.objective b {
-    color: #fff;
-    font-size: 14px;
-}
-
-.progress {
-    margin-top: 10px;
+.objective-panel b { color: var(--quantum-cyan); }
+.matrix-progress-track {
+    margin-top: 18px;
     height: 8px;
-    background: rgba(255,255,255,.06);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 99px;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.02);
 }
-
-.progress > i {
-    display: block;
-    height: 100%;
+.matrix-progress-bar-fill {
     width: 0%;
-    background: linear-gradient(90deg, var(--accent), #f59e0b);
+    height: 100%;
+    background: linear-gradient(90deg, var(--quantum-cyan), var(--quantum-emerald));
     border-radius: inherit;
-    transition: width 0.3s ease;
+transition: width 0.4s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+.upgrades-scroll-area {
+display: flex;
+flex-direction: column;
+gap: 12px;
+max-height: 380px;
+overflow-y: auto;
+padding-right: 6px;
+}
+.upgrade-module-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background: rgba(255, 255, 255, 0.02);
+border: 1px solid rgba(255, 255, 255, 0.02);
+padding: 16px;
+border-radius: 16px;
+transition: background 0.2s, border-color 0.2s;
+}
+.upgrade-module-row:hover {
+background: rgba(255, 255, 255, 0.04);
+border-color: rgba(255, 255, 255, 0.05);
+}
+.module-info-meta span {
+display: block;
+font-size: 13px;
+font-weight: 700;
+color: var(--quantum-text-primary);
+}
+.module-info-meta small {
+display: block;
+font-size: 10px;
+color: var(--quantum-text-secondary);
+margin-top: 4px;
+}
+.btn-procure-module {
+padding: 10px 16px;
+background: var(--quantum-emerald);
+color: #fff;
+font-size: 11px;
+font-weight: 700;
+border-radius: 10px;
+box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+.btn-procure-module:disabled {
+background: #1e293b;
+color: var(--quantum-text-muted);
+box-shadow: none;
+cursor: not-allowed;
+}
+.ai-glass-panel {
+border-color: rgba(56, 189, 248, 0.25);
+background: rgba(10, 15, 28, 0.94);
+}
+.ai-status-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 16px;
+font-size: 12px;
+}
+.ai-master-toggle-btn {
+width: 100%;
+padding: 15px;
+border-radius: 14px;
+font-weight: 800;
+font-size: 12px;
+text-transform: uppercase;
+letter-spacing: 1px;
+background: rgba(56, 189, 248, 0.08);
+color: var(--quantum-cyan);
+border: 1px solid rgba(56, 189, 248, 0.2);
+}
+.ai-master-toggle-btn.ai-active {
+background: var(--quantum-cyan);
+color: #010204;
+box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+border-color: transparent;
+}
+#quantum-toast-overlay {
+position: absolute;
+bottom: 40px;
+right: 40px;
+background: var(--quantum-bg-card);
+border: 1px solid var(--quantum-cyan);
+color: #fff;
+padding: 18px 32px;
+border-radius: 16px;
+font-weight: 700;
+font-size: 12px;
+box-shadow: var(--quantum-panel-shadow);
+transform: translateY(150px);
+opacity: 0;
+transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+z-index: 1000;
+}
+#quantum-toast-overlay.toast-active {
+transform: translateY(0);
+opacity: 1;
 }
 
-/* Upgrades Drawer inside HUD */
-.upgrade-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 240px;
-    overflow-y: auto;
-    padding-right: 4px;
+
+QuantumOverlord
+Universal Financial Grid Simulator Engine
+
+
+
+Consolidated Liquid Treasury
+$500
+
+
+Synchronised Operations Matrices
+1 / 10
+
+
+← Harvest Liquidity & Terminate
+
+Sector Core Frame
+Sector Operations Matrix Pipeline
+
+
+
+🤖 AI Automation Framework: OFFLINE
+💰 $0
+function alignRenderingPlaneToViewportBoundaries() {
+    const scaleRatio = window.devicePixelRatio || 1;
+    const parentBox = canvasPlane.getBoundingClientRect();
+    canvasPlane.width = parentBox.width * scaleRatio;
+    canvasPlane.height = parentBox.height * scaleRatio;
+    renderCtx.scale(scaleRatio, scaleRatio);
 }
 
-.upgrade-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.03);
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.03);
+function pushFloatTextNotificationEntity(text, x, y, hexColor = "#fff") {
+    textNotificationArrayPool.push({ outputMessage: text, x, y, structuralDriftY: -2.2, alphaDensity: 1.0, hexColor });
 }
 
-.upgrade-info span {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
+function triggerHighVelocityParticleExplosionArray(x, y, targetColorHex) {
+    for (let loopIdx = 0; loopIdx < 10; loopIdx++) {
+        particleArrayPool.push({
+            x, y,
+            vX: (Math.random() - 0.5) * 7,
+            vY: (Math.random() - 0.5) * 7,
+            squareSize: Math.random() * 6 + 2,
+            alphaDensity: 1.0,
+            targetColorHex
+        });
+    }
 }
 
-.upgrade-info small {
-    font-size: 11px;
-    color: var(--muted);
-}
-
-.up-btn {
-    padding: 6px 12px;
-    background: var(--good);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.up-btn:disabled {
-    background: #222a36;
-    color: var(--muted);
-    cursor: not-allowed;
-}
-
-/* Toast Message Node */
-#toast {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    background: rgba(16,185,129,0.95);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-weight: 700;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 100;
-}
-
-#toast.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-</style>
-</head>
-<body>
-
-    <div id="home">
-        <div class="home-top">
-            <div class="logo-container">
-                <div class="logo">Tycoon<span>World</span></div>
-                <div class="subtitle">Next-Gen Business Simulator</div>
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <small>Total Net Worth</small>
-                    <strong id="globalCash">$0</strong>
-                </div>
-                <div class="stat">
-                    <small>Worlds Cleaned</small>
-                    <strong id="globalCount">0 / 10</strong>
-                </div>
-            </div>
-        </div>
+/* ============================================================================
+   CANVAS RENDERING ENGINE AND RECURSION PIPELINE LOOPS
+   ============================================================================ */
+function frameExecutionPipelineProcessCycle() {
+    if (!activeSession) return;
+    
+    const themeStyleRef = VECTOR_THEME_COLOR_SCHEMAS[activeSession.theme] || VECTOR_THEME_COLOR_SCHEMAS.pizza;
+    const modelReference = globalPersistenceState.worldState[activeSession.id];
+    
+    renderCtx.fillStyle = themeStyleRef.floor;
+    renderCtx.fillRect(0, 0, canvasPlane.width, canvasPlane.height);
+    
+    renderCtx.strokeStyle = themeStyleRef.line;
+    renderCtx.lineWidth = 1;
+    const networkGridSpacer = 60;
+    for (let x = 0; x < canvasPlane.width; x += networkGridSpacer) {
+        renderCtx.beginPath(); renderCtx.moveTo(x, 0); renderCtx.lineTo(x, canvasPlane.height); renderCtx.stroke();
+    }
+    for (let y = 0; y < canvasPlane.height; y += networkGridSpacer) {
+        renderCtx.beginPath(); renderCtx.moveTo(0, y); renderCtx.lineTo(canvasPlane.width, y); renderCtx.stroke();
+    }
+    
+    if (modelReference.aiAutomated) {
+        const structuralProcureOptions = [
+            { key: "assemblerLines", priceTarget: 100 * modelReference.modules.assemblerLines },
+            { key: "engineClock", priceTarget: 150 * modelReference.modules.engineClock },
+            { key: "materialMultiplier", priceTarget: 200 * modelReference.modules.materialMultiplier },
+            { key: "workerDrones", priceTarget: 350 * (modelReference.modules.workerDrones + 1) }
+        ];
         
-        <div class="game-grid" id="menuGrid"></div>
-    </div>
+        structuralProcureOptions.forEach(option => {
+            if (modelReference.localCash >= option.priceTarget) {
+                modelReference.localCash -= option.priceTarget;
+                modelReference.modules[option.key] += 1;
+                pushFloatTextNotificationEntity("AI HARDWARE OPTIMIZATION", 500, 220, resolveCssVariableHexCodeLookup("--quantum-cyan"));
+                configureIndustrialSpatialTopography(activeSession);
+                reconstructInfrastructureModuleUIControlsDrawer();
+                commitApplicationConfigurationPersistence();
+            }
+        });
 
-    <div id="gameScreen">
-        <div class="game-bar">
-            <button class="bar-btn" id="btnBack">← Exit to Corporate</button>
-            <div class="game-title">
-                <strong id="titleText">Pizza Tycoon</strong>
-                <span id="placeText">Pizza Palace HQ</span>
-            </div>
-            <div class="stats-container">
-                <div class="level-box">⭐ Level <span id="levelLabel">1</span></div>
-                <div class="money-box">💰 $<span id="moneyLabel">0</span></div>
-            </div>
-        </div>
+        let targetAscensionCostValue = 300 * modelReference.tierLevel;
+        if (modelReference.localCash >= targetAscensionCostValue) {
+            modelReference.localCash -= targetAscensionCostValue;
+            modelReference.tierLevel += 1;
+            pushFloatTextNotificationEntity("AI LAYER ASCENSION", 260, 160, resolveCssVariableHexCodeLookup("--quantum-emerald"));
+            document.getElementById("levelLabel").innerText = modelReference.tierLevel;
+            configureIndustrialSpatialTopography(activeSession);
+            commitApplicationConfigurationPersistence();
+        }
+    }
 
+    spatialIndustrialConveyors.forEach(conveyor => {
+        renderCtx.fillStyle = "#090d16";
+        renderCtx.fillRect(conveyor.x, conveyor.y, conveyor.widthExtent, conveyor.heightExtent);
+        renderCtx.strokeStyle = "#1e293b";
+        renderCtx.lineWidth = 4;
+        renderCtx.strokeRect(conveyor.x, conveyor.y, conveyor.widthExtent, conveyor.heightExtent);
+        
+        renderCtx.fillStyle = "rgba(56, 189, 248, 0.06)";
+        let animatedTickerShiftX = (Date.now() / 12) % 50;
+        for (let lx = conveyor.x + animatedTickerShiftX; lx < conveyor.x + conveyor.widthExtent; lx += 50) {
+            renderCtx.fillRect(lx, conveyor.y, 8, conveyor.heightExtent);
+        }
+        
+        renderCtx.fillStyle = themeStyleRef.line;
+        renderCtx.fillRect(conveyor.x - 20, conveyor.y - 20, 50, conveyor.heightExtent + 40);
+        renderCtx.strokeStyle = themeStyleRef.accent;
+        renderCtx.strokeRect(conveyor.x - 20, conveyor.y - 20, 50, conveyor.heightExtent + 40);
+        
+        renderCtx.fillStyle = "#020408";
+        renderCtx.fillRect(conveyor.x + conveyor.widthExtent - 30, conveyor.y - 15, 50, conveyor.heightExtent + 30);
+        renderCtx.strokeStyle = resolveCssVariableHexCodeLookup("--quantum-emerald");
+        renderCtx.strokeRect(conveyor.x + conveyor.widthExtent - 30, conveyor.y - 15, 50, conveyor.heightExtent + 30);
+    });
+
+    if (Math.random() < 0.022 * modelReference.modules.engineClock) {
+        operationalActiveResourceDrops.push({
+            x: 270,
+            y: 385,
+            progressStepValue: 0,
+            financialYieldFactor: activeSession.baseIncome * modelReference.modules.materialMultiplier,
+            bounceRadianDelta: 0
+        });
+    }
+
+    for (let dropIdx = operationalActiveResourceDrops.length - 1; dropIdx >= 0; dropIdx--) {
+        let resourceNode = operationalActiveResourceDrops[dropIdx];
+        resourceNode.progressStepValue += 2.2 * modelReference.modules.engineClock;
+        resourceNode.x = 270 + resourceNode.progressStepValue;
+        resourceNode.bounceRadianDelta += 0.18;
+        
+        renderCtx.beginPath();
+        let responsiveElasticBounceRadius = 15 + Math.sin(resourceNode.bounceRadianDelta) * 3;
+        renderCtx.arc(resourceNode.x, resourceNode.y, responsiveElasticBounceRadius, 0, Math.PI * 2);
+        renderCtx.fillStyle = themeStyleRef.item;
+        renderCtx.fill();
+        renderCtx.strokeStyle = themeStyleRef.flash;
+        renderCtx.lineWidth = 3;
+        renderCtx.stroke();
+        
+        renderCtx.fillStyle = "#ffffff";
+        renderCtx.beginPath(); renderCtx.arc(resourceNode.x - 6, resourceNode.y - 5, 4, 0, Math.PI * 2); renderCtx.fill();
+
+        if (resourceNode.x >= 715) {
+            let optimizedCalculatedPayoutValue = Math.floor(resourceNode.financialYieldFactor * (1 + (modelReference.tierLevel * 0.3)));
+            modelReference.localCash += optimizedCalculatedPayoutValue;
+            pushFloatTextNotificationEntity(`+$${optimizedCalculatedPayoutValue}`, resourceNode.x, resourceNode.y - 25, resolveCssVariableHexCodeLookup("--quantum-emerald"));
+            triggerHighVelocityParticleExplosionArray(resourceNode.x, resourceNode.y, themeStyleRef.accent);
+            operationalActiveResourceDrops.splice(dropIdx, 1);
+            document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
+        }
+    }
+
+    continuousAutomatedWorkerDrones.forEach(drone => {
+        if (drone.currentCycleState === "cargo_load_run") {
+            drone.xPosition += drone.velocityFactor;
+            if (drone.xPosition >= drone.unloadingTerminalMaxX) {
+                drone.currentCycleState = "return_dock_run";
+            }
+        } else {
+            drone.xPosition -= drone.velocityFactor;
+            if (drone.xPosition <= drone.dockingBoundaryMinX) {
+                drone.currentCycleState = "cargo_load_run";
+                operationalActiveResourceDrops.push({
+                    x: 270, y: 385, progressStepValue: 0,
+                    financialYieldFactor: activeSession.baseIncome * modelReference.modules.materialMultiplier * 1.6,
+                    bounceRadianDelta: 0
+                });
+            }
+        }
+        
+        renderCtx.fillStyle = resolveCssVariableHexCodeLookup("--quantum-cyan");
+        renderCtx.beginPath();
+        renderCtx.moveTo(drone.xPosition, drone.yPosition - 15);
+        renderCtx.lineTo(drone.xPosition + 15, drone.yPosition + 8);
+        renderCtx.lineTo(drone.xPosition - 15, drone.yPosition + 8);
+        renderCtx.closePath();
+        renderCtx.fill();
+        
+        renderCtx.fillStyle = "rgba(56, 189, 248, 0.45)";
+        renderCtx.fillRect(drone.xPosition - 5, drone.yPosition + 12, 10, 5);
+    });
+
+    structuralMatrixInteractiveNodes.forEach(node => {
+        let cyclicPulseGlowRadius = node.radius + Math.sin(Date.now() / 140) * 5;
+        let focalPointGradient = renderCtx.createRadialGradient(node.x, node.y, node.radius - 10, node.x, node.y, cyclicPulseGlowRadius + 12);
+        focalPointGradient.addColorStop(0, node.colorCode + "35");
+        focalPointGradient.addColorStop(1, "transparent");
+        renderCtx.fillStyle = focalPointGradient;
+        renderCtx.beginPath(); renderCtx.arc(node.x, node.y, cyclicPulseGlowRadius + 15, 0, Math.PI * 2); renderCtx.fill();
+
+        renderCtx.beginPath();
+        renderCtx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        renderCtx.fillStyle = "rgba(1, 2, 4, 0.96)";
+        renderCtx.fill();
+        renderCtx.strokeStyle = node.colorCode;
+        renderCtx.lineWidth = 4;
+        renderCtx.stroke();
+
+        renderCtx.fillStyle = "#ffffff";
+        renderCtx.font = "bold 12px ui-monospace";
+        renderCtx.textAlign = "center";
+        renderCtx.fillText(node.headline, node.x, node.y - 6);
+        
+        renderCtx.fillStyle = resolveCssVariableHexCodeLookup("--quantum-text-secondary");
+        renderCtx.font = "9px ui-monospace";
+        renderCtx.fillText(node.subtextLabel, node.x, node.y + 16);
+    });
+
+    for (let textIdx = textNotificationArrayPool.length - 1; textIdx >= 0; textIdx--) {
+let dynamicText = textNotificationArrayPool[textIdx];
+dynamicText.y += dynamicText.structuralDriftY;
+dynamicText.alphaDensity -= 0.018;
+if (dynamicText.alphaDensity <= 0) {
+textNotificationArrayPool.splice(textIdx, 1);
+} else {
+renderCtx.save();
+renderCtx.globalAlpha = dynamicText.alphaDensity;
+renderCtx.fillStyle = dynamicText.hexColor;
+renderCtx.font = "bold 15px ui-monospace";
+renderCtx.textAlign = "center";
+renderCtx.fillText(dynamicText.outputMessage, dynamicText.x, dynamicText.y);
+renderCtx.restore();
+}
+}
+for (let particleIdx = particleArrayPool.length - 1; particleIdx >= 0; particleIdx--) {
+let explicitParticle = particleArrayPool[particleIdx];
+explicitParticle.x += explicitParticle.vX; explicitParticle.y += explicitParticle.vY;
+explicitParticle.alphaDensity -= 0.022;
+if (explicitParticle.alphaDensity <= 0) { particleArrayPool.splice(particleIdx, 1); }
+else {
+renderCtx.save();
+renderCtx.globalAlpha = explicitParticle.alphaDensity;
+renderCtx.fillStyle = explicitParticle.targetColorHex;
+renderCtx.fillRect(explicitParticle.x, explicitParticle.y, explicitParticle.squareSize, explicitParticle.squareSize);
+renderCtx.restore();
+}
+}
+processLocalObjectiveCalculationsTrackingMetrics(modelReference);
+activeAnimationFrameLoopId = requestAnimationFrame(frameExecutionPipelineProcessCycle);
+}
+function processLocalObjectiveCalculationsTrackingMetrics(modelReference) {
+let macroTargetValueThreshold = 300 * modelReference.tierLevel;
+let finalPercentageCalculationResult = Math.min(100, (modelReference.localCash / macroTargetValueThreshold) * 100);
+document.getElementById("elementProgressBarFillProgress").style.width = finalPercentageCalculationResult + "%";
+document.getElementById("lblObjectiveTextDescription").innerHTML = Acquire <b>$${Math.floor(modelReference.localCash).toLocaleString()}</b> / $${macroTargetValueThreshold.toLocaleString()} to complete layer objective mapping paths.;
+}
+/* ============================================================================
+CONTROL INTERACTIVE INTERFACE LOGIC SYSTEMS
+============================================================================ */
+canvasPlane.addEventListener("click", function(clickEvent) {
+if (!activeSession) return;
+const viewportBounds = canvasPlane.getBoundingClientRect();
+const processedClickCoordinateX = clickEvent.clientX - viewportBounds.left;
+const processedClickCoordinateY = clickEvent.clientY - viewportBounds.top;
+const modelReference = globalPersistenceState.worldState[activeSession.id];
+structuralMatrixInteractiveNodes.forEach(node => {
+let mathematicalDistanceHypotenuse = Math.hypot(processedClickCoordinateX - node.x, processedClickCoordinateY - node.y);
+if (mathematicalDistanceHypotenuse <= node.radius) {
+if (node.typeCategory === "manual_harvest_pulse") {
+let explicitTransactionPayoutValue = activeSession.clickValue * modelReference.modules.materialMultiplier;
+modelReference.localCash += explicitTransactionPayoutValue;
+pushFloatTextNotificationEntity(+$${explicitTransactionPayoutValue}, node.x, node.y - 30, "#fbbf24");
+triggerHighVelocityParticleExplosionArray(node.x, node.y, "#ffffff");
+document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
+}
+else if (node.typeCategory === "ascension_terminal_gate") {
+let tierCostRequirementValue = 300 * modelReference.tierLevel;
+if (modelReference.localCash >= tierCostRequirementValue) {
+modelReference.localCash -= tierCostRequirementValue;
+modelReference.tierLevel += 1;
+triggerToastNotificationModal("Matrix structure layer successfully ascended.");
+document.getElementById("levelLabel").innerText = modelReference.tierLevel;
+document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
+configureIndustrialSpatialTopography(activeSession);
+commitApplicationConfigurationPersistence();
+} else {
+triggerToastNotificationModal(Insufficient tier layer capital reserves. Requires: $${tierCostRequirementValue.toLocaleString()});
+}
+}
+}
+});
+});
+function reconstructInfrastructureModuleUIControlsDrawer() {
+if (!activeSession) return;
+const modelReference = globalPersistenceState.worldState[activeSession.id];
+const internalListDOMContainerElement = document.getElementById("elementUpgradesScrollListWrapper");
+internalListDOMContainerElement.innerHTML = "";
+const operationalHardwareSystemMatrixBlueprints = [
+{ key: "assemblerLines", title: "Automated Assembler", expenditureTargetValue: 100 * modelReference.modules.assemblerLines, summaryDescription: "+1 automatic process matrix line injection slot" },
+{ key: "engineClock", title: "Overclock Core Engine", expenditureTargetValue: 150 * modelReference.modules.engineClock, summaryDescription: "+25% global cycle frequency operation speed" },
+{ key: "materialMultiplier", title: "Yield Optimization", expenditureTargetValue: 200 * modelReference.modules.materialMultiplier, summaryDescription: "Double baseline output parameters performance" },
+{ key: "workerDrones", title: "Sub-Processor Drone", expenditureTargetValue: 350 * (modelReference.modules.workerDrones + 1), summaryDescription: "Deploy recursive logistical data-carrier drones" }
+];
+operationalHardwareSystemMatrixBlueprints.forEach(blueprint => {
+let modularRowDOMElementNode = document.createElement("div");
+modularRowDOMElementNode.className = "upgrade-module-row";
+let activeInstalledHardwareCount = modelReference.modules[blueprint.key];
+modularRowDOMElementNode.innerHTML = <div class="module-info-meta"> <span>${blueprint.title} [v.${activeInstalledHardwareCount}]</span> <small>${blueprint.summaryDescription} • Cost: $${blueprint.expenditureTargetValue.toLocaleString()}</small> </div> <button class="btn-procure-module" ${modelReference.localCash < blueprint.expenditureTargetValue ? "disabled" : ""} onclick="executeHardwareModuleProcurementTransaction('${blueprint.key}', ${blueprint.expenditureTargetValue})">UPGRADE</button>;
+internalListDOMContainerElement.appendChild(modularRowDOMElementNode);
+});
+}
+window.executeHardwareModuleProcurementTransaction = function(targetKey, validationCostPriceValue) {
+if (!activeSession) return;
+const modelReference = globalPersistenceState.worldState[activeSession.id];
+if (modelReference.localCash >= validationCostPriceValue) {
+modelReference.localCash -= validationCostPriceValue;
+modelReference.modules[targetKey] += 1;
+document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
+triggerToastNotificationModal("Hardware module safely allocated into sector mapping arrays.");
+configureIndustrialSpatialTopography(activeSession);
+reconstructInfrastructureModuleUIControlsDrawer();
+commitApplicationConfigurationPersistence();
+}
+};
+/* ============================================================================
+DEEP CORE AUTOMATED AI OPERATIONS SYSTEMS INTERFACES
+============================================================================ */
+document.getElementById("btnToggleAiAutomationFrame").onclick = function() {
+if (!activeSession) return;
+const modelReference = globalPersistenceState.worldState[activeSession.id];
+modelReference.aiAutomated = !modelReference.aiAutomated;
+const contextIndicatorLabelTextComponent = document.getElementById("lblAiStatusStateIndicator");
+const masterTriggerActionControlBtn = document.getElementById("btnToggleAiAutomationFrame");
+if (modelReference.aiAutomated) {
+contextIndicatorLabelTextComponent.innerText = "ACTIVE AUTONOMOUS SYSTEM DISPATCH";
+contextIndicatorLabelTextComponent.style.color = resolveCssVariableHexCodeLookup("--quantum-emerald");
+masterTriggerActionControlBtn.innerText = "Shut Down Autonomous AI Grid Frame";
+masterTriggerActionControlBtn.classList.add("ai-active");
+triggerToastNotificationModal("Autonomous AI optimization sequence connected to sector pipeline successfully.");
+} else {
+contextIndicatorLabelTextComponent.innerText = "OFFLINE";
+contextIndicatorLabelTextComponent.style.color = "#f43f5e";
+masterTriggerActionControlBtn.innerText = "Initialize Autonomous AI Engine Loop";
+masterTriggerActionControlBtn.classList.remove("ai-active");
+triggerToastNotificationModal("AI matrix loops detached cleanly. Returned control back to structural manual operator.");
+}
+};
+/* ============================================================================
+SYSTEM SCREEN NAVIGATION COMPILING ENGINE ROUTERS
+============================================================================ */
+function buildMainDashboardMenuGridInterface() {
+const listWrapperComponentContainer = document.getElementById("mainMatrixGridElement");
+listWrapperComponentContainer.innerHTML = "";
+INDUSTRY_REGISTRY_METRIC_SCHEMAS.forEach(matrixBlueprint => {
+const modelReference = globalPersistenceState.worldState[matrixBlueprint.id];
+const activeNetworkAccessUnlockedConfirmationFlag = globalPersistenceState.unlockedIds.includes(matrixBlueprint.id);
+let dynamicCardDOMNodeStructureElement = document.createElement("div");
+dynamicCardDOMNodeStructureElement.className = sector-node ${activeNetworkAccessUnlockedConfirmationFlag ? "" : "locked-node"};
+if (activeNetworkAccessUnlockedConfirmationFlag) {
+dynamicCardDOMNodeStructureElement.onclick = () => instantiateTycoonSimulationActiveSession(matrixBlueprint);
+dynamicCardDOMNodeStructureElement.innerHTML = <div class="node-top"> <h2>${matrixBlueprint.title}</h2> <p>${matrixBlueprint.place}</p> <div class="node-analytics"> <div class="analytics-row"><span>Structural Layer Tier</span><b>Tier ${modelReference.tierLevel}</b></div> <div class="analytics-row"><span>Accumulated Grid Assets</span><b>$${Math.floor(modelReference.localCash).toLocaleString()}</b></div> </div> </div> <div class="node-action-area"> <span class="launch-trigger">Boot Venture Matrix</span> </div>;
+} else {
+dynamicCardDOMNodeStructureElement.onclick = () => processingVentureAllocationAcquisitionSequence(matrixBlueprint);
+dynamicCardDOMNodeStructureElement.innerHTML = <div class="node-top"> <h2>Encrypted Matrix Node Slot</h2> <p>Acquisition of legal industry expansion data blocks required to deploy structure.</p> <div class="node-analytics"> <div class="analytics-row"><span>Acquisition Pipeline Entry Cost</span><b style="color:var(--quantum-amber); font-weight:900;">$${matrixBlueprint.unlockCost.toLocaleString()}</b></div> </div> </div> <div class="node-action-area"> <span class="launch-trigger" style="background:#1e293b; color:var(--quantum-text-secondary); box-shadow:none;">DECRYPT SECTOR MODULE</span> </div>;
+}
+listWrapperComponentContainer.appendChild(dynamicCardDOMNodeStructureElement);
+});
+refreshSystemMetricsIndicators();
+}
+function processingVentureAllocationAcquisitionSequence(matrixBlueprint) {
+if (globalPersistenceState.globalCash >= matrixBlueprint.unlockCost) {
+globalPersistenceState.globalCash -= matrixBlueprint.unlockCost;
+globalPersistenceState.unlockedIds.push(matrixBlueprint.id);
+triggerToastNotificationModal(Successfully decrypted operations sector layout for: ${matrixBlueprint.title});
+commitApplicationConfigurationPersistence();
+buildMainDashboardMenuGridInterface();
+} else {
+triggerToastNotificationModal(Inadequate corporate treasury portfolios. Earn another $${(matrixBlueprint.unlockCost - globalPersistenceState.globalCash).toLocaleString()} from running industrial instances.);
+}
+}
+function instantiateTycoonSimulationActiveSession(matrixBlueprint) {
+activeSession = matrixBlueprint;
+document.getElementById("global-dashboard").style.display = "none";
+document.getElementById("quantum-simulator").style.display = "flex";
+document.getElementById("lblActiveSimTitle").innerText = matrixBlueprint.title;
+document.getElementById("lblActiveSimSubText").innerText = matrixBlueprint.place;
+const modelReference = globalPersistenceState.worldState[matrixBlueprint.id];
+document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
+const contextIndicatorLabelTextComponent = document.getElementById("lblAiStatusStateIndicator");
+const masterTriggerActionControlBtn = document.getElementById("btnToggleAiAutomationFrame");
+if (modelReference.aiAutomated) {
+contextIndicatorLabelTextComponent.innerText = "ACTIVE AUTONOMOUS SYSTEM DISPATCH";
+contextIndicatorLabelTextComponent.style.color = resolveCssVariableHexCodeLookup("--quantum-emerald");
+masterTriggerActionControlBtn.innerText = "Shut Down Autonomous AI Grid Frame";
+masterTriggerActionControlBtn.classList.add("ai-active");
+} else {
+contextIndicatorLabelTextComponent.innerText = "OFFLINE";
+contextIndicatorLabelTextComponent.style.color = "#f43f5e";
+masterTriggerActionControlBtn.innerText = "Initialize Autonomous AI Engine Loop";
+masterTriggerActionControlBtn.classList.remove("ai-active");
+}
+alignRenderingPlaneToViewportBoundaries();
+configureIndustrialSpatialTopography(matrixBlueprint);
+reconstructInfrastructureModuleUIControlsDrawer();
+activeAnimationFrameLoopId = requestAnimationFrame(frameExecutionPipelineProcessCycle);
+}
+document.getElementById("btnExitToCorporateDashboard").onclick = function() {
+if (activeSession) {
+cancelAnimationFrame(activeAnimationFrameLoopId);
+const modelReference = globalPersistenceState.worldState[activeSession.id];
+globalPersistenceState.globalCash += modelReference.localCash;
+modelReference.localCash = 0;
+activeSession = null;
+commitApplicationConfigurationPersistence();
+document.getElementById("quantum-simulator").style.display = "none";
+document.getElementById("global-dashboard").style.display = "block";
+buildMainDashboardMenuGridInterface();
+}
+};
+window.addEventListener("resize", alignRenderingPlaneToViewportBoundaries);
+window.addEventListener("DOMContentLoaded", () => {
+loadApplicationConfigurationPersistence();
+buildMainDashboardMenuGridInterface();
+setInterval(() => {
+if (activeSession) {
+reconstructInfrastructureModuleUIControlsDrawer();
+}
+}, 450);
+});
