@@ -1,716 +1,2699 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum Industrial Overlord Engine: Absolute Edition</title>
+<title>Finn's Mega Arcade</title>
+
 <style>
-/* ============================================================================
-   ARCHITECTURAL CORE CSS SYSTEM (SYSTEM DESIGN MATRIX)
-   ============================================================================ */
-:root {
-    --quantum-bg-absolute: #010204;
-    --quantum-bg-deep: #05070c;
-    --quantum-bg-surface: #0a0f1d;
-    --quantum-bg-card: #111827;
-    --quantum-bg-panel: #1e293b;
-    --quantum-border-glow: rgba(56, 189, 248, 0.2);
-    --quantum-text-primary: #f8fafc;
-    --quantum-text-secondary: #94a3b8;
-    --quantum-text-muted: #64748b;
-    --quantum-cyan: #38bdf8;
-    --quantum-emerald: #10b981;
-    --quantum-amber: #f59e0b;
-    --quantum-rose: #f43f5e;
-    --quantum-indigo: #6366f1;
-    --quantum-violet: #8b5cf6;
-    --quantum-fuchsia: #d946ef;
-    --quantum-glow-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
-    --quantum-panel-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-}
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-html, body {
-    width: 100%;
-    height: 100%;
-    background: var(--quantum-bg-absolute);
-    color: var(--quantum-text-primary);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    overflow: hidden;
-}
-button {
-    font: inherit;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: var(--quantum-bg-deep);
-}
-::-webkit-scrollbar-thumb {
-    background: var(--quantum-bg-panel);
-    border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--quantum-cyan);
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* ============================================================================
-   GLOBAL DASHBOARD ARCHITECTURE
-   ============================================================================ */
-#global-dashboard {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 50px;
-    background: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08), transparent 50%),
-        radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.08), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(217, 70, 239, 0.05), transparent 60%),
-        linear-gradient(180deg, #010204 0%, #070b14 100%);
-}
-.header-container {
-    max-width: 1600px;
-    margin: 0 auto 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 35px;
-}
-.brand-block h1 {
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: -2px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff 30%, var(--quantum-cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.brand-block h1 span {
-    color: var(--quantum-cyan);
-    -webkit-text-fill-color: initial;
-    text-shadow: var(--quantum-glow-shadow);
-}
-.brand-block p {
-    color: var(--quantum-text-secondary);
-    font-size: 11px;
-    margin-top: 8px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-.summary-metrics {
-    display: flex;
-    gap: 25px;
-}
-.metric-card {
-    background: var(--quantum-bg-surface);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    padding: 20px 30px;
-    border-radius: 20px;
-    min-width: 220px;
-    box-shadow: var(--quantum-panel-shadow);
-    position: relative;
-    overflow: hidden;
-}
-.metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--quantum-cyan), transparent);
-}
-.metric-card small {
-    display: block;
-    font-size: 10px;
-    color: var(--quantum-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-.metric-card strong {
-    display: block;
-    font-size: 26px;
-    margin-top: 8px;
-    color: var(--quantum-emerald);
-    font-weight: 800;
-}
-.matrix-grid {
-    max-width: 1600px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 30px;
-}
-.sector-node {
-    background: linear-gradient(145deg, #0b1120, #040712);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 28px;
-    padding: 30px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 320px;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-}
-.sector-node:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: var(--quantum-cyan);
-    box-shadow: 0 30px 60px rgba(56, 189, 248, 0.08);
-}
-.node-top h2 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.node-top p {
-    color: var(--quantum-text-secondary);
-    font-size: 12px;
-    line-height: 1.6;
-}
-.node-analytics {
-    margin-top: 25px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    padding-top: 20px;
-}
-.analytics-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-.analytics-row span { color: var(--quantum-text-muted); }
-.analytics-row b { color: var(--quantum-text-primary); }
-.node-action-area {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.launch-trigger {
-    padding: 14px 24px;
-    border-radius: 14px;
-    background: var(--quantum-cyan);
-    color: #020306;
-    font-weight: 800;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
-}
-.sector-node.locked-node {
-    opacity: 0.45;
-}
-.sector-node.locked-node .launch-trigger {
-    background: #334155;
-    color: var(--quantum-text-secondary);
-    box-shadow: none;
+body{
+background:#0f172a;
+font-family:Arial;
+overflow:hidden;
+color:white;
 }
 
-/* ============================================================================
-   REALTIME SIMULATOR DESKTOP LAYOUT
-   ============================================================================ */
-#quantum-simulator {
-    display: none;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    position: relative;
-    background: #020306;
-}
-.sim-navbar {
-    height: 85px;
-    background: rgba(10, 15, 28, 0.96);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(24px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    z-index: 100;
-}
-.navbar-left-wing {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-.btn-liquidate {
-    padding: 12px 22px;
-    background: #1e293b;
-    color: var(--quantum-text-primary);
-    font-weight: 700;
-    border-radius: 12px;
-    font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-.btn-liquidate:hover {
-    background: var(--quantum-rose);
-    color: #fff;
-    border-color: transparent;
-    box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
-}
-.sim-identity strong {
-    display: block;
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-}
-.sim-identity span {
-    display: block;
-    font-size: 11px;
-    color: var(--quantum-text-secondary);
-    margin-top: 3px;
-    text-transform: uppercase;
-}
-.navbar-right-wing {
-    display: flex;
-    gap: 20px;
-}
-.hud-status-capsule {
-    padding: 14px 24px;
-    border-radius: 14px;
-    font-weight: 900;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    background: rgba(255, 255, 255, 0.02);
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.02);
-}
-.hud-status-capsule.cash-capsule {
-    color: var(--quantum-emerald);
-    border-color: rgba(16, 185, 129, 0.2);
-    background: rgba(16, 185, 129, 0.04);
-}
-.hud-status-capsule.ai-capsule {
-    color: var(--quantum-cyan);
-    border-color: rgba(56, 189, 248, 0.2);
-    background: rgba(56, 189, 248, 0.04);
-}
-#simulation-viewport {
-    width: 100%;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-}
-#engineRenderPlane {
-    display: block;
-    width: 100%;
-    height: 100%;
+#menu{
+width:100vw;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+gap:20px;
 }
 
-/* ============================================================================
-   HUD CONTROL INTERFACE OVERLAYS
-   ============================================================================ */
-#heads-up-display-container {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    width: 400px;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 50;
+#title{
+font-size:64px;
+color:#60a5fa;
+text-shadow:0 0 20px #60a5fa;
 }
-.hud-glass-panel {
-    background: rgba(10, 15, 28, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 24px;
-    padding: 24px;
-    backdrop-filter: blur(20px);
-    box-shadow: var(--quantum-panel-shadow);
-    pointer-events: auto;
-}
-.hud-glass-panel h3 {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--quantum-text-secondary);
-    margin-bottom: 16px;
-    border-left: 3px solid var(--quantum-cyan);
-    padding-left: 10px;
-}
-.objective-panel p {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--quantum-text-primary);
-}
-.objective-panel b { color: var(--quantum-cyan); }
-.matrix-progress-track {
-    margin-top: 18px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 99px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.02);
-}
-.matrix-progress-bar-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--quantum-cyan), var(--quantum-emerald));
-    border-radius: inherit;
-### Part 2: State Tracking Engine, Database Systems, and Hardware Configuration Models
 
-```html
+.gameButton{
+
+width:300px;
+height:80px;
+
+font-size:28px;
+
+border:none;
+
+border-radius:20px;
+
+cursor:pointer;
+
+background:#2563eb;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.gameButton:hover{
+
+transform:scale(1.05);
+
+background:#3b82f6;
+
+}
+
+#game{
+
+display:none;
+
+background:#111827;
+
+}
+
+#ui{
+
+position:absolute;
+
+top:10px;
+left:10px;
+
+color:white;
+
+font-size:22px;
+
+display:none;
+
+z-index:999;
+
+}
+
+.stat{
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="menu">
+
+<div id="title">
+🎮 FINN'S MEGA ARCADE
+</div>
+
+<button
+class="gameButton"
+onclick="startShooter()">
+
+🔫 SHOOTER
+
+</button>
+
+<button
+class="gameButton">
+
+🏭 TYCOON
+
+</button>
+
+<button
+class="gameButton">
+
+🚗 SIMULATOR
+
+</button>
+
+</div>
+
+<div id="ui">
+
+<div class="stat">
+Coins:
+<span id="coins">
+0
+</span>
+</div>
+
+<div class="stat">
+Level:
+<span id="level">
+1
+</span>
+</div>
+
+<div class="stat">
+XP:
+<span id="xp">
+0
+</span>
+</div>
+
+<div class="stat">
+HP:
+<span id="hp">
+100
+</span>
+</div>
+
+</div>
+
+<canvas id="game"></canvas>
+
 <script>
-/* ============================================================================
-   QUANTUM DATA REGISTRY DEFINITIONS
-   ============================================================================ */
-const INDUSTRY_REGISTRY_METRIC_SCHEMAS = [
-    { id: "pizza", title: "🍕 Pizza Tycoon", place: "Pizza Palace Matrix Core", theme: "pizza", baseIncome: 5, clickValue: 15, unlockCost: 0 },
-    { id: "cookie", title: "🍪 Cookie Tycoon", place: "Cookie Kingdom Sector", theme: "cookie", baseIncome: 15, clickValue: 45, unlockCost: 350 },
-    { id: "football", title: "⚽ Football Tycoon", place: "NXI Sports Grid Block", theme: "football", baseIncome: 55, clickValue: 165, unlockCost: 1500 },
-    { id: "gaming", title: "🎮 Gaming Tycoon", place: "Pixel Arcade Compound", theme: "gaming", baseIncome: 220, clickValue: 660, unlockCost: 6000 },
-    { id: "hotel", title: "🏨 Hotel Tycoon", place: "Grand Stay Hub Node", theme: "hotel", baseIncome: 900, clickValue: 2700, unlockCost: 30000 },
-    { id: "supermarket", title: "🛒 Supermarket Tycoon", place: "Mega Market Node Space", theme: "supermarket", baseIncome: 4000, clickValue: 12000, unlockCost: 150000 },
-    { id: "racing", title: "🏎️ Racing Tycoon", place: "Turbo Garage Array Block", theme: "racing", baseIncome: 18000, clickValue: 54000, unlockCost: 900000 },
-    { id: "clothing", title: "👕 Clothing Tycoon", place: "NXI Streetwear Core Vault", theme: "clothing", baseIncome: 95000, clickValue: 285000, unlockCost: 5500000 },
-    { id: "fishing", title: "🎣 Fishing Tycoon", place: "Harbour Extraction Station", theme: "fishing", baseIncome: 500000, clickValue: 1500000, unlockCost: 40000000 },
-    { id: "island", title: "🏝️ Island Tycoon", place: "Paradise Sanctuary Mainland", theme: "island", baseIncome: 3000000, clickValue: 9000000, unlockCost: 300000000 }
-];
 
-let globalPersistenceState = {
-    globalCash: 500,
-    unlockedIds: ["pizza"],
-    worldState: {}
+const canvas =
+document.getElementById("game");
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+window.innerWidth;
+
+canvas.height =
+window.innerHeight;
+
+let coins =
+Number(
+localStorage.getItem("coins")
+)||0;
+
+let level =
+Number(
+localStorage.getItem("level")
+)||1;
+
+let xp =
+Number(
+localStorage.getItem("xp")
+)||0;
+
+const player={
+
+x:500,
+y:500,
+
+w:40,
+h:40,
+
+speed:5,
+
+hp:100,
+
+maxHp:100
+
 };
 
-INDUSTRY_REGISTRY_METRIC_SCHEMAS.forEach(schema => {
-    globalPersistenceState.worldState[schema.id] = {
-        tierLevel: 1,
-        localCash: 0,
-        aiAutomated: false,
-        modules: {
-            assemblerLines: 1,
-            engineClock: 1,
-            materialMultiplier: 1,
-            workerDrones: 0
-        }
-    };
+const keys={};
+
+let enemies=[];
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+keys[e.key.toLowerCase()]
+=true;
+
 });
 
-let activeSession = null;
-const canvasPlane = document.getElementById("engineRenderPlane");
-const renderCtx = canvasPlane.getContext("2d");
-let activeAnimationFrameLoopId = null;
+document.addEventListener(
+"keyup",
+(e)=>{
 
-let particleArrayPool = [];
-let textNotificationArrayPool = [];
-let structuralMatrixInteractiveNodes = [];
-let spatialIndustrialConveyors = [];
-let operationalActiveResourceDrops = [];
-let continuousAutomatedWorkerDrones = [];
+keys[e.key.toLowerCase()]
+=false;
 
-const VECTOR_THEME_COLOR_SCHEMAS = {
-    pizza: { floor: "#0f0b09", line: "#26130f", accent: "#f97316", item: "#fbbf24", flash: "#ef4444" },
-    cookie: { floor: "#0d0907", line: "#241610", accent: "#fbbf24", item: "#7c2d12", flash: "#ffedd5" },
-    football: { floor: "#02231c", line: "#043e2e", accent: "#10b981", item: "#ffffff", flash: "#6ee7b7" },
-    gaming: { floor: "#0a081d", line: "#161238", accent: "#a855f7", item: "#06b6d4", flash: "#f43f5e" },
-    hotel: { floor: "#080d1c", line: "#131b30", accent: "#38bdf8", item: "#cbd5e1", flash: "#60a5fa" },
-    supermarket: { floor: "#041a12", line: "#0a3a2c", accent: "#22c55e", item: "#fbbf24", flash: "#a7f3d0" },
-    racing: { floor: "#0f0f0f", line: "#1f1f1f", accent: "#dc2626", item: "#e5e5e5", flash: "#f59e0b" },
-    clothing: { floor: "#20053b", line: "#3b1775", accent: "#e879f9", item: "#ffffff", flash: "#c084fc" },
-    fishing: { floor: "#062238", line: "#093854", accent: "#0284c7", item: "#38bdf8", flash: "#7dd3fc" },
-    island: { floor: "#043a32", line: "#0d4744", accent: "#0d9488", item: "#fef08a", flash: "#2dd4bf" }
+});
+
+function saveGame(){
+
+localStorage.setItem(
+"coins",
+coins
+);
+
+localStorage.setItem(
+"level",
+level
+);
+
+localStorage.setItem(
+"xp",
+xp
+);
+
+}
+
+setInterval(
+saveGame,
+5000
+);
+
+function startShooter(){
+
+document.getElementById(
+"menu"
+).style.display="none";
+
+document.getElementById(
+"ui"
+).style.display="block";
+
+canvas.style.display=
+"block";
+
+spawnWave();
+
+gameLoop();
+
+}
+
+function updatePlayer(){
+
+if(keys["w"]){
+player.y-=player.speed;
+}
+
+if(keys["s"]){
+player.y+=player.speed;
+}
+
+if(keys["a"]){
+player.x-=player.speed;
+}
+
+if(keys["d"]){
+player.x+=player.speed;
+}
+
+if(player.x<0)
+player.x=0;
+
+if(player.y<0)
+player.y=0;
+
+if(player.x>
+canvas.width-player.w)
+player.x=
+canvas.width-player.w;
+
+if(player.y>
+canvas.height-player.h)
+player.y=
+canvas.height-player.h;
+
+}
+
+function drawPlayer(){
+
+ctx.fillStyle=
+"#22c55e";
+
+ctx.fillRect(
+
+player.x,
+player.y,
+
+player.w,
+player.h
+
+);
+
+}
+
+class Enemy{
+
+constructor(){
+
+this.x=
+Math.random()
+*canvas.width;
+
+this.y=
+Math.random()
+*canvas.height;
+
+this.size=35;
+
+this.speed=1.5;
+
+this.hp=25;
+
+}
+
+update(){
+
+let dx=
+player.x-
+this.x;
+
+let dy=
+player.y-
+this.y;
+
+let dist=
+Math.sqrt(
+dx*dx+
+dy*dy
+);
+
+if(dist>0){
+
+this.x+=
+(dx/dist)
+*this.speed;
+
+this.y+=
+(dy/dist)
+*this.speed;
+
+}
+
+}
+
+draw(){
+
+ctx.fillStyle=
+"#ef4444";
+
+ctx.fillRect(
+
+this.x,
+this.y,
+
+this.size,
+this.size
+
+);
+
+}
+
+}
+
+function spawnWave(){
+
+for(
+let i=0;
+i<10;
+i++
+){
+
+enemies.push(
+new Enemy()
+);
+
+}
+
+}
+
+function updateEnemies(){
+
+for(
+let enemy
+of enemies
+){
+
+enemy.update();
+enemy.draw();
+
+}
+
+}
+
+function drawBackground(){
+
+ctx.fillStyle=
+"#111827";
+
+ctx.fillRect(
+
+0,
+0,
+
+canvas.width,
+canvas.height
+
+);
+
+}
+
+function checkCollisions(){
+
+for(
+let enemy
+of enemies
+){
+
+let dx=
+player.x-
+enemy.x;
+
+let dy=
+player.y-
+enemy.y;
+
+let dist=
+Math.sqrt(
+dx*dx+
+dy*dy
+);
+
+if(
+dist<30
+){
+
+player.hp-=0.1;
+
+if(
+player.hp<=0
+){
+
+gameOver();
+
+}
+
+}
+
+}
+
+}
+
+function gainXP(
+amount
+){
+
+xp+=amount;
+
+if(
+xp>=100
+){
+
+xp=0;
+
+level++;
+
+player.maxHp+=10;
+
+player.hp=
+player.maxHp;
+
+}
+
+}
+
+function updateUI(){
+
+document
+.getElementById(
+"coins"
+)
+.textContent=
+coins;
+
+document
+.getElementById(
+"level"
+)
+.textContent=
+level;
+
+document
+.getElementById(
+"xp"
+)
+.textContent=
+xp;
+
+document
+.getElementById(
+"hp"
+)
+.textContent=
+Math.floor(
+player.hp
+);
+
+}
+
+function gameOver(){
+
+saveGame();
+
+alert(
+"GAME OVER"
+);
+
+location.reload();
+
+}
+
+function drawGrid(){
+
+ctx.strokeStyle=
+"#1e293b";
+
+for(
+let x=0;
+x<canvas.width;
+x+=50
+){
+
+ctx.beginPath();
+
+ctx.moveTo(
+x,
+0
+);
+
+ctx.lineTo(
+x,
+canvas.height
+);
+
+ctx.stroke();
+
+}
+
+for(
+let y=0;
+y<canvas.height;
+y+=50
+){
+
+ctx.beginPath();
+
+ctx.moveTo(
+0,
+y
+);
+
+ctx.lineTo(
+canvas.width,
+y
+);
+
+ctx.stroke();
+
+}
+
+}
+
+function gameLoop(){
+
+drawBackground();
+
+drawGrid();
+
+updatePlayer();
+
+drawPlayer();
+
+updateEnemies();
+
+checkCollisions();
+
+updateUI();
+
+requestAnimationFrame(
+gameLoop
+);
+
+}
+
+</script>
+
+</body>
+</html>
+// ==========================
+// PART 2 SHOOTER SYSTEM
+// ==========================
+
+let mouse = {
+x:0,
+y:0
 };
 
-/* ============================================================================
-   ARCHITECTURAL STORAGE CORE AND INTERPOLATION MAPPING HELPERS
-   ============================================================================ */
-function loadApplicationConfigurationPersistence() {
-    const rawStorageSnapshot = localStorage.getItem("QUANTUM_OVERLORD_MASTER_SAVE");
-    if (rawStorageSnapshot) {
-        try {
-            const parsedConfig = JSON.parse(rawStorageSnapshot);
-            if (parsedConfig && parsedConfig.worldState) {
-                globalPersistenceState = { ...globalPersistenceState, ...parsedConfig };
-            }
-        } catch (ex) { console.error("Database snapshot error. Resetting defaults.", ex); }
-    }
+let bullets = [];
+
+let wave = 1;
+
+document.addEventListener(
+"mousemove",
+(e)=>{
+
+mouse.x=e.clientX;
+mouse.y=e.clientY;
+
+}
+);
+
+canvas.addEventListener(
+"mousedown",
+()=>{
+shoot();
+}
+);
+
+class Bullet{
+
+constructor(){
+
+this.x=player.x+20;
+this.y=player.y+20;
+
+let dx=
+mouse.x-this.x;
+
+let dy=
+mouse.y-this.y;
+
+let dist=
+Math.sqrt(
+dx*dx+
+dy*dy
+);
+
+this.vx=
+(dx/dist)*12;
+
+this.vy=
+(dy/dist)*12;
+
+this.size=6;
+
 }
 
-function commitApplicationConfigurationPersistence() {
-    localStorage.setItem("QUANTUM_OVERLORD_MASTER_SAVE", JSON.stringify(globalPersistenceState));
-    refreshSystemMetricsIndicators();
+update(){
+
+this.x+=this.vx;
+this.y+=this.vy;
+
 }
 
-function refreshSystemMetricsIndicators() {
-    let combinedLiquidValue = globalPersistenceState.globalCash;
-    Object.keys(globalPersistenceState.worldState).forEach(id => {
-        combinedLiquidValue += globalPersistenceState.worldState[id].localCash;
-    });
-    document.getElementById("lblGlobalNetWorth").innerText = "$" + Math.floor(combinedLiquidValue).toLocaleString();
-    document.getElementById("lblActiveSectorsCount").innerText = globalPersistenceState.unlockedIds.length + " / 10";
+draw(){
+
+ctx.fillStyle="yellow";
+
+ctx.beginPath();
+
+ctx.arc(
+this.x,
+this.y,
+this.size,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
 }
 
-function triggerToastNotificationModal(text) {
-    const component = document.getElementById("quantum-toast-overlay");
-    component.innerText = text;
-    component.classList.add("toast-active");
-    setTimeout(() => component.classList.remove("toast-active"), 2200);
 }
 
-function resolveCssVariableHexCodeLookup(cssVarName) {
-    if (cssVarName === "--quantum-emerald") return "#10b981";
-    if (cssVarName === "--quantum-cyan") return "#38bdf8";
-    if (cssVarName === "--quantum-text-secondary") return "#94a3b8";
-    return "#ffffff";
+function shoot(){
+
+bullets.push(
+new Bullet()
+);
+
 }
 
-function configureIndustrialSpatialTopography(session) {
-    structuralMatrixInteractiveNodes = [];
-    spatialIndustrialConveyors = [];
-    operationalActiveResourceDrops = [];
-    particleArrayPool = [];
-    textNotificationArrayPool = [];
-    continuousAutomatedWorkerDrones = [];
-    
-    const contextStateRecord = globalPersistenceState.worldState[session.id];
-    
-    spatialIndustrialConveyors.push({ x: 260, y: 360, widthExtent: 480, heightExtent: 50, directionVector: "right" });
-    
-    structuralMatrixInteractiveNodes.push({
-        id: "primary_processor_click_node",
-        x: 500, y: 540, radius: 55,
-        typeCategory: "manual_harvest_pulse",
-        headline: "Quantum Core",
-        colorCode: "#10b981",
-        subtextLabel: "Manual Injection"
-    });
-    
-    structuralMatrixInteractiveNodes.push({
-        id: "infrastructure_ascension_gate_node",
-        x: 260, y: 220, radius: 45,
-        typeCategory: "ascension_terminal_gate",
-        headline: "Ascend Matrix",
-        calculatedCapitalTarget: 300 * contextStateRecord.tierLevel,
-        colorCode: "#f59e0b",
-        subtextLabel: "Next Tier Node"
-    });
+function updateBullets(){
 
-    if (contextStateRecord.modules.workerDrones > 0) {
-        for (let idx = 0; idx < contextStateRecord.modules.workerDrones; idx++) {
-            continuousAutomatedWorkerDrones.push({
-                xPosition: 360 + (idx * 40),
-                yPosition: 310,
-                dockingBoundaryMinX: 310,
-                unloadingTerminalMaxX: 720,
-                currentCycleState: "cargo_load_run",
-                velocityFactor: 2.2 + (idx * 0.4)
-            });
-        }
-    }
-}
-function alignRenderingPlaneToViewportBoundaries() {
-    const scaleRatio = window.devicePixelRatio || 1;
-    const parentBox = canvasPlane.getBoundingClientRect();
-    canvasPlane.width = parentBox.width * scaleRatio;
-    canvasPlane.height = parentBox.height * scaleRatio;
-    renderCtx.scale(scaleRatio, scaleRatio);
+for(
+let i=
+bullets.length-1;
+i>=0;
+i--
+){
+
+let bullet=
+bullets[i];
+
+bullet.update();
+bullet.draw();
+
+if(
+
+bullet.x<0 ||
+bullet.y<0 ||
+
+bullet.x>
+canvas.width ||
+
+bullet.y>
+canvas.height
+
+){
+
+bullets.splice(
+i,
+1
+);
+
 }
 
-function pushFloatTextNotificationEntity(text, x, y, hexColor = "#fff") {
-    textNotificationArrayPool.push({ outputMessage: text, x, y, structuralDriftY: -2.2, alphaDensity: 1.0, hexColor });
 }
 
-function triggerHighVelocityParticleExplosionArray(x, y, targetColorHex) {
-    for (let loopIdx = 0; loopIdx < 10; loopIdx++) {
-        particleArrayPool.push({
-            x, y,
-            vX: (Math.random() - 0.5) * 7,
-            vY: (Math.random() - 0.5) * 7,
-            squareSize: Math.random() * 6 + 2,
-            alphaDensity: 1.0,
-            targetColorHex
-        });
-    }
 }
 
-/* ============================================================================
-   CANVAS RENDERING ENGINE AND RECURSION PIPELINE LOOPS
-   ============================================================================ */
-function frameExecutionPipelineProcessCycle() {
-    if (!activeSession) return;
-    
-    const themeStyleRef = VECTOR_THEME_COLOR_SCHEMAS[activeSession.theme] || VECTOR_THEME_COLOR_SCHEMAS.pizza;
-    const modelReference = globalPersistenceState.worldState[activeSession.id];
-    
-    renderCtx.fillStyle = themeStyleRef.floor;
-    renderCtx.fillRect(0, 0, canvasPlane.width, canvasPlane.height);
-    
-    renderCtx.strokeStyle = themeStyleRef.line;
-    renderCtx.lineWidth = 1;
-    const networkGridSpacer = 60;
-    for (let x = 0; x < canvasPlane.width; x += networkGridSpacer) {
-        renderCtx.beginPath(); renderCtx.moveTo(x, 0); renderCtx.lineTo(x, canvasPlane.height); renderCtx.stroke();
-    }
-    for (let y = 0; y < canvasPlane.height; y += networkGridSpacer) {
-        renderCtx.beginPath(); renderCtx.moveTo(0, y); renderCtx.lineTo(canvasPlane.width, y); renderCtx.stroke();
-    }
-    
-    if (modelReference.aiAutomated) {
-        const structuralProcureOptions = [
-            { key: "assemblerLines", priceTarget: 100 * modelReference.modules.assemblerLines },
-            { key: "engineClock", priceTarget: 150 * modelReference.modules.engineClock },
-            { key: "materialMultiplier", priceTarget: 200 * modelReference.modules.materialMultiplier },
-            { key: "workerDrones", priceTarget: 350 * (modelReference.modules.workerDrones + 1) }
-        ];
-        
-        structuralProcureOptions.forEach(option => {
-            if (modelReference.localCash >= option.priceTarget) {
-                modelReference.localCash -= option.priceTarget;
-                modelReference.modules[option.key] += 1;
-                pushFloatTextNotificationEntity("AI HARDWARE OPTIMIZATION", 500, 220, resolveCssVariableHexCodeLookup("--quantum-cyan"));
-                configureIndustrialSpatialTopography(activeSession);
-                reconstructInfrastructureModuleUIControlsDrawer();
-                commitApplicationConfigurationPersistence();
-            }
-        });
+// ========================
+// DAMAGE SYSTEM
+// ========================
 
-        let targetAscensionCostValue = 300 * modelReference.tierLevel;
-        if (modelReference.localCash >= targetAscensionCostValue) {
-            modelReference.localCash -= targetAscensionCostValue;
-            modelReference.tierLevel += 1;
-            pushFloatTextNotificationEntity("AI LAYER ASCENSION", 260, 160, resolveCssVariableHexCodeLookup("--quantum-emerald"));
-            document.getElementById("levelLabel").innerText = modelReference.tierLevel;
-            configureIndustrialSpatialTopography(activeSession);
-            commitApplicationConfigurationPersistence();
-        }
-    }
+function bulletHits(){
 
-    spatialIndustrialConveyors.forEach(conveyor => {
-        renderCtx.fillStyle = "#090d16";
-        renderCtx.fillRect(conveyor.x, conveyor.y, conveyor.widthExtent, conveyor.heightExtent);
-        renderCtx.strokeStyle = "#1e293b";
-        renderCtx.lineWidth = 4;
-        renderCtx.strokeRect(conveyor.x, conveyor.y, conveyor.widthExtent, conveyor.heightExtent);
-        
-        renderCtx.fillStyle = "rgba(56, 189, 248, 0.06)";
-        let animatedTickerShiftX = (Date.now() / 12) % 50;
-        for (let lx = conveyor.x + animatedTickerShiftX; lx < conveyor.x + conveyor.widthExtent; lx += 50) {
-            renderCtx.fillRect(lx, conveyor.y, 8, conveyor.heightExtent);
-        }
-        
-        renderCtx.fillStyle = themeStyleRef.line;
-        renderCtx.fillRect(conveyor.x - 20, conveyor.y - 20, 50, conveyor.heightExtent + 40);
-        renderCtx.strokeStyle = themeStyleRef.accent;
-        renderCtx.strokeRect(conveyor.x - 20, conveyor.y - 20, 50, conveyor.heightExtent + 40);
-        
-        renderCtx.fillStyle = "#020408";
-        renderCtx.fillRect(conveyor.x + conveyor.widthExtent - 30, conveyor.y - 15, 50, conveyor.heightExtent + 30);
-        renderCtx.strokeStyle = resolveCssVariableHexCodeLookup("--quantum-emerald");
-        renderCtx.strokeRect(conveyor.x + conveyor.widthExtent - 30, conveyor.y - 15, 50, conveyor.heightExtent + 30);
-    });
+for(
+let b=
+bullets.length-1;
+b>=0;
+b--
+){
 
-    if (Math.random() < 0.022 * modelReference.modules.engineClock) {
-        operationalActiveResourceDrops.push({
-            x: 270,
-            y: 385,
-            progressStepValue: 0,
-            financialYieldFactor: activeSession.baseIncome * modelReference.modules.materialMultiplier,
-            bounceRadianDelta: 0
-        });
-    }
+for(
+let e=
+enemies.length-1;
+e>=0;
+e--
+){
 
-    for (let dropIdx = operationalActiveResourceDrops.length - 1; dropIdx >= 0; dropIdx--) {
-        let resourceNode = operationalActiveResourceDrops[dropIdx];
-        resourceNode.progressStepValue += 2.2 * modelReference.modules.engineClock;
-        resourceNode.x = 270 + resourceNode.progressStepValue;
-        resourceNode.bounceRadianDelta += 0.18;
-        
-        renderCtx.beginPath();
-        let responsiveElasticBounceRadius = 15 + Math.sin(resourceNode.bounceRadianDelta) * 3;
-        renderCtx.arc(resourceNode.x, resourceNode.y, responsiveElasticBounceRadius, 0, Math.PI * 2);
-        renderCtx.fillStyle = themeStyleRef.item;
-        renderCtx.fill();
-        renderCtx.strokeStyle = themeStyleRef.flash;
-        renderCtx.lineWidth = 3;
-        renderCtx.stroke();
-        
-        renderCtx.fillStyle = "#ffffff";
-        renderCtx.beginPath(); renderCtx.arc(resourceNode.x - 6, resourceNode.y - 5, 4, 0, Math.PI * 2); renderCtx.fill();
+let bullet=
+bullets[b];
 
-        if (resourceNode.x >= 715) {
-            let optimizedCalculatedPayoutValue = Math.floor(resourceNode.financialYieldFactor * (1 + (modelReference.tierLevel * 0.3)));
-            modelReference.localCash += optimizedCalculatedPayoutValue;
-            pushFloatTextNotificationEntity(`+$${optimizedCalculatedPayoutValue}`, resourceNode.x, resourceNode.y - 25, resolveCssVariableHexCodeLookup("--quantum-emerald"));
-            triggerHighVelocityParticleExplosionArray(resourceNode.x, resourceNode.y, themeStyleRef.accent);
-            operationalActiveResourceDrops.splice(dropIdx, 1);
-            document.getElementById("lblLocalSimCash").innerText = Math.floor(modelReference.localCash).toLocaleString();
-        }
-    }
+let enemy=
+enemies[e];
 
-    continuousAutomatedWorkerDrones.forEach(drone => {
-        if (drone.currentCycleState === "cargo_load_run") {
-            drone.xPosition += drone.velocityFactor;
-            if (drone.xPosition >= drone.unloadingTerminalMaxX) {
-                drone.currentCycleState = "return_dock_run";
-            }
-        } else {
-            drone.xPosition -= drone.velocityFactor;
-            if (drone.xPosition <= drone.dockingBoundaryMinX) {
-                drone.currentCycleState = "cargo_load_run";
-                operationalActiveResourceDrops.push({
-                    x: 270, y: 385, progressStepValue: 0,
-                    financialYieldFactor: activeSession.baseIncome * modelReference.modules.materialMultiplier * 1.6,
-                    bounceRadianDelta: 0
-                });
-            }
-        }
-        
-        renderCtx.fillStyle = resolveCssVariableHexCodeLookup("--quantum-cyan");
-        renderCtx.beginPath();
-        renderCtx.moveTo(drone.xPosition, drone.yPosition - 15);
-        renderCtx.lineTo(drone.xPosition + 15, drone.yPosition + 8);
-        renderCtx.lineTo(drone.xPosition - 15, drone.yPosition + 8);
-        renderCtx.closePath();
-        renderCtx.fill();
-        
-        renderCtx.fillStyle = "rgba(56, 189, 248, 0.45)";
-        renderCtx.fillRect(drone.xPosition - 5, drone.yPosition + 12, 10, 5);
-    });
+let dx=
+bullet.x-enemy.x;
 
-    structuralMatrixInteractiveNodes.forEach(node => {
-        let cyclicPulseGlowRadius = node.radius + Math.sin(Date.now() / 140) * 5;
-        let focalPointGradient = renderCtx.createRadialGradient(node.x, node.y, node.radius - 10, node.x, node.y, cyclicPulseGlowRadius + 12);
-        focalPointGradient.addColorStop(0, node.colorCode + "35");
-        focalPointGradient.addColorStop(1, "transparent");
-        renderCtx.fillStyle = focalPointGradient;
-        renderCtx.beginPath(); renderCtx.arc(node.x, node.y, cyclicPulseGlowRadius + 15, 0, Math.PI * 2); renderCtx.fill();
+let dy=
+bullet.y-enemy.y;
 
-        renderCtx.beginPath();
-        renderCtx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        renderCtx.fillStyle = "rgba(1, 2, 4, 0.96)";
-        renderCtx.fill();
-        renderCtx.strokeStyle = node.colorCode;
-        renderCtx.lineWidth = 4;
-        renderCtx.stroke();
+let dist=
+Math.sqrt(
+dx*dx+
+dy*dy
+);
 
-        renderCtx.fillStyle = "#ffffff";
-        renderCtx.font = "bold 12px ui-monospace";
-        renderCtx.textAlign = "center";
-        renderCtx.fillText(node.headline, node.x, node.y - 6);
-        
-        renderCtx.fillStyle = resolveCssVariableHexCodeLookup("--quantum-text-secondary");
-        renderCtx.font = "9px ui-monospace";
-        renderCtx.fillText(node.subtextLabel, node.x, node.y + 16);
-    });
+if(
+dist<25
+){
 
-    for (let textIdx = textNotificationArrayPool.length - 1; textIdx >= 0; textIdx--) {
+enemy.hp-=10;
+
+bullets.splice(
+b,
+1
+);
+
+if(
+enemy.hp<=0
+){
+
+coins+=10;
+
+gainXP(20);
+
+enemies.splice(
+e,
+1
+);
+
+spawnEnemy();
+
+}
+
+break;
+
+}
+
+}
+
+}
+
+}
+
+// ========================
+// ENEMY SPAWNER
+// ========================
+
+function spawnEnemy(){
+
+let enemy=
+new Enemy();
+
+enemy.hp=
+20+(wave*2);
+
+enemy.speed=
+1.5+(wave*0.1);
+
+enemies.push(
+enemy
+);
+
+}
+
+// ========================
+// WAVE SYSTEM
+// ========================
+
+function checkWave(){
+
+if(
+enemies.length===0
+){
+
+wave++;
+
+for(
+let i=0;
+i<10+wave;
+i++
+){
+
+spawnEnemy();
+
+}
+
+}
+
+}
+
+// ========================
+// CROSSHAIR
+// ========================
+
+function drawCrosshair(){
+
+ctx.strokeStyle=
+"white";
+
+ctx.lineWidth=2;
+
+ctx.beginPath();
+
+ctx.moveTo(
+mouse.x-10,
+mouse.y
+);
+
+ctx.lineTo(
+mouse.x+10,
+mouse.y
+);
+
+ctx.stroke();
+
+ctx.beginPath();
+
+ctx.moveTo(
+mouse.x,
+mouse.y-10
+);
+
+ctx.lineTo(
+mouse.x,
+mouse.y+10
+);
+
+ctx.stroke();
+
+}
+
+// ========================
+// HEALTH
+   // =================================
+// PART 3
+// WEAPONS + BOSS + SHOP
+// =================================
+
+let currentWeapon = "Pistol";
+
+let unlockedWeapons = {
+
+Pistol:true,
+Shotgun:false,
+SMG:false,
+Rifle:false
+
+};
+
+const weaponStats = {
+
+Pistol:{
+damage:10,
+cooldown:250,
+bulletSpeed:12
+},
+
+Shotgun:{
+damage:8,
+cooldown:600,
+bulletSpeed:10
+},
+
+SMG:{
+damage:5,
+cooldown:80,
+bulletSpeed:14
+},
+
+Rifle:{
+damage:25,
+cooldown:700,
+bulletSpeed:18
+}
+
+};
+
+let lastShot = 0;
+
+// ======================
+// SAVE WEAPONS
+// ======================
+
+function saveWeapons(){
+
+localStorage.setItem(
+"weapons",
+JSON.stringify(
+unlockedWeapons
+)
+);
+
+}
+
+function loadWeapons(){
+
+const data=
+localStorage.getItem(
+"weapons"
+);
+
+if(data){
+
+unlockedWeapons=
+JSON.parse(data);
+
+}
+
+}
+
+loadWeapons();
+
+// ======================
+// SHOP
+// =================================
+// PART 4
+// TYCOON + PETS + ACHIEVEMENTS
+// =================================
+
+// ======================
+// TYCOON
+// ======================
+
+let factories = 0;
+let factoryLevel = 1;
+
+function buyFactory(){
+
+if(coins >= 500){
+
+coins -= 500;
+
+factories++;
+
+alert(
+"Factory Purchased!"
+);
+
+}
+
+}
+
+function upgradeFactory(){
+
+if(coins >= 1000){
+
+coins -= 1000;
+
+factoryLevel++;
+
+alert(
+"Factory Upgraded!"
+);
+
+}
+
+}
+
+setInterval(()=>{
+
+coins +=
+factories *
+factoryLevel;
+
+},1000);
+
+// ======================
+// GEMS
+// ======================
+
+let gems =
+Number(
+localStorage.getItem(
+"gems"
+)
+)||0;
+
+function saveGems(){
+
+localStorage.setItem(
+"gems",
+gems
+);
+
+}
+
+setInterval(
+saveGems,
+5000
+);
+
+// ======================
+// DAILY REWARD
+// ======================
+
+function claimReward(){
+
+gems += 5;
+
+coins += 100;
+
+alert(
+"Daily Reward Claimed!"
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+===
+"r"
+){
+
+claimReward();
+
+}
+
+}
+);
+
+// ======================
+// PETS
+// ======================
+
+let pets = [];
+
+class Pet{
+
+constructor(){
+
+this.x =
+player.x;
+
+this.y =
+player.y;
+
+}
+
+update(){
+
+this.x +=
+(
+player.x -
+this.x
+)*0.05;
+
+this.y +=
+(
+player.y -
+this.y
+)*0.05;
+
+}
+
+draw(){
+
+ctx.fillStyle =
+"cyan";
+
+ctx.beginPath();
+
+ctx.arc(
+this.x,
+this.y,
+10,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+}
+
+}
+
+function buyPet(){
+
+if(
+gems >= 50
+){
+
+gems -= 50;
+
+pets.push(
+new Pet()
+);
+
+alert(
+"Pet Purchased!"
+);
+
+}
+
+}
+
+function updatePets(){
+
+for(
+let pet
+of pets
+){
+
+pet.update();
+pet.draw();
+
+}
+
+}
+
+// ======================
+// ACHIEVEMENTS
+// ======================
+
+let achievements = {
+
+level10:false,
+rich:false,
+wave20:false
+
+};
+
+function checkAchievements(){
+
+if(
+level >= 10 &&
+!achievements.level10
+){
+
+achievements.level10 =
+true;
+
+alert(
+"Achievement:\nReached Level 10"
+);
+
+}
+
+if(
+coins >= 10000 &&
+!achievements.rich
+){
+
+achievements.rich =
+true;
+
+alert(
+"Achievement:\nRich Player"
+);
+
+}
+
+if(
+wave >= 20 &&
+!achievements.wave20
+){
+
+achievements.wave20 =
+true;
+
+alert(
+"Achievement:\nWave Master"
+);
+
+}
+
+}
+
+// ======================
+// DAY NIGHT
+// ======================
+
+let timeOfDay = 0;
+
+function updateDayNight(){
+
+timeOfDay += 0.001;
+
+if(timeOfDay > 1){
+
+timeOfDay = 0;
+
+}
+
+let darkness =
+Math.sin(
+timeOfDay *
+Math.PI
+);
+
+ctx.fillStyle =
+`rgba(0,0,40,${
+darkness*0.4
+})`;
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+}
+
+// ======================
+// DISPLAY EXTRA STATS
+// ======================
+
+function drawExtraStats
+// =================================
+// PART 5
+// DRIVING SIMULATOR
+// =================================
+
+let inVehicle = false;
+
+let fuel = 100;
+
+let currentCar = "Starter";
+
+let ownedCars = {
+    Starter:true,
+    Sports:false,
+    Truck:false
+};
+
+const carData = {
+
+Starter:{
+speed:8,
+cost:0,
+color:"blue"
+},
+
+Sports:{
+speed:14,
+cost:2000,
+color:"red"
+},
+
+Truck:{
+speed:10,
+cost:5000,
+color:"orange"
+}
+
+};
+
+let vehicle = {
+
+x:800,
+y:500,
+w:60,
+h:35
+
+};
+
+// ==========================
+// GARAGE
+// ==========================
+
+function openGarage(){
+
+let choice = prompt(
+
+`GARAGE
+
+1 = Sports Car (2000)
+
+2 = Truck (5000)
+
+Coins: ${coins}
+
+Owned:
+${Object.keys(ownedCars).filter(c=>ownedCars[c]).join(", ")}
+
+Enter Option`
+
+);
+
+if(choice==="1"){
+
+if(coins>=2000){
+
+coins-=2000;
+
+ownedCars.Sports=true;
+
+alert("Sports Car Unlocked");
+
+}
+
+}
+
+if(choice==="2"){
+
+if(coins>=5000){
+
+coins-=5000;
+
+ownedCars.Truck=true;
+
+alert("Truck Unlocked");
+
+}
+
+}
+
+}
+
+// ==========================
+// VEHICLE KEYS
+// ==========================
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(e.key.toLowerCase()==="g"){
+
+openGarage();
+
+}
+
+if(e.key.toLowerCase()==="e"){
+
+toggleVehicle();
+
+}
+
+if(e.key==="5" &&
+ownedCars.Starter){
+
+currentCar="Starter";
+
+}
+
+if(e.key==="6" &&
+ownedCars.Sports){
+
+currentCar="Sports";
+
+}
+
+if(e.key==="7" &&
+ownedCars.Truck){
+
+currentCar="Truck";
+
+}
+
+}
+);
+
+// ==========================
+// ENTER VEHICLE
+// ==========================
+
+function toggleVehicle(){
+
+let dx =
+player.x
+// =================================
+// PART 6
+// CRATES + QUESTS + ALLIES
+// =================================
+
+// =========================
+// LOOT CRATES
+// =========================
+
+let crates = 0;
+
+function buyCrate(){
+
+if(coins >= 500){
+
+coins -= 500;
+
+crates++;
+
+alert(
+"Crate Purchased!"
+);
+
+}
+
+}
+
+function openCrate(){
+
+if(crates <= 0){
+
+alert("No Crates!");
+
+return;
+
+}
+
+crates--;
+
+let roll =
+Math.random();
+
+if(roll < 0.5){
+
+coins += 250;
+
+alert(
+"You found 250 Coins!"
+);
+
+}
+else if(roll < 0.8){
+
+gems += 10;
+
+alert(
+"You found 10 Gems!"
+);
+
+}
+else{
+
+coins += 2000;
+
+alert(
+"LEGENDARY!\n2000 Coins!"
+);
+
+}
+
+}
+
+// =========================
+// MISSIONS
+// =========================
+
+let missions = {
+
+kills:0,
+
+carsDriven:0,
+
+factoriesBuilt:0
+
+};
+
+function missionKill(){
+
+missions.kills++;
+
+if(
+missions.kills === 50
+){
+
+coins += 1000;
+
+alert(
+"Mission Complete!\n50 Kills"
+);
+
+}
+
+}
+
+// =========================
+// AI ALLY
+// =========================
+
+let allies = [];
+
+class Ally{
+
+constructor(){
+
+this.x = player.x;
+
+this.y = player.y;
+
+this.cooldown=0;
+
+}
+
+update(){
+
+this.x +=
+(player.x-this.x)
+*0.03;
+
+this.y +=
+(player.y-this.y)
+*0.03;
+
+this.cooldown--;
+
+if(
+this.cooldown <=0 &&
+enemies.length>0
+){
+// ======================================
+// PART 7
+// MAPS + ZOMBIES + ALIENS + PRESTIGE
+// ======================================
+
+// =====================
+// MAP SYSTEM
+// =====================
+
+let currentMap = "Grass";
+
+const maps = {
+
+Grass:{
+color:"#0f5132"
+},
+
+Desert:{
+color:"#a67c52"
+},
+
+Snow:{
+color:"#dbeafe"
+},
+
+Lava:{
+color:"#7f1d1d"
+}
+
+};
+
+function changeMap(){
+
+const names =
+Object.keys(maps);
+
+currentMap =
+names[
+Math.floor(
+Math.random()*
+names.length
+)
+];
+
+alert(
+"Map Changed To: "
++
+currentMap
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="m"
+){
+
+changeMap();
+
+}
+
+}
+);
+
+// =====================
+// ZOMBIE MODE
+// =====================
+
+let zombieMode = false;
+
+function toggleZombieMode(){
+
+zombieMode =
+!zombieMode;
+
+alert(
+"Zombie Mode: "
++
+zombieMode
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="z"
+){
+
+toggleZombieMode();
+
+}
+
+}
+);
+
+// =====================
+// ALIEN MODE
+// =====================
+
+let alienMode = false;
+
+function toggleAlienMode(){
+
+alienMode =
+!alienMode;
+
+alert(
+"Alien Mode: "
++
+alienMode
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="x"
+){
+
+toggleAlienMode();
+
+}
+
+}
+);
+
+// =====================
+// SPECIAL ENEMIES
+// =====================
+
+class Zombie extends Enemy{
+
+constructor(){
+
+super();
+
+this.hp=60;
+this.speed=1;
+
+}
+
+draw(){
+
+ctx.fillStyle=
+"green";
+
+ctx.fillRect(
+this.x,
+this.y,
+50,
+50
+);
+
+}
+
+}
+
+class Alien extends Enemy{
+// ======================================
+// PART 8
+// INVENTORY + SKILLS + QUESTS
+// ======================================
+
+// =====================
+// INVENTORY
+// =====================
+
+let inventory = [];
+
+function addItem(item){
+
+inventory.push(item);
+
+}
+
+function showInventory(){
+
+alert(
+"Inventory:\n\n" +
+inventory.join("\n")
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(e.key.toLowerCase()==="i"){
+
+showInventory();
+
+}
+
+}
+);
+
+// =====================
+// ARMOR
+// =====================
+
+let armor = 0;
+
+function buyArmor(){
+
+if(coins >= 500){
+
+coins -= 500;
+
+armor += 25;
+
+}
+
+}
+
+function damagePlayer(amount){
+
+let reduced =
+Math.max(
+amount - armor*0.05,
+1
+);
+
+player.hp -= reduced;
+
+}
+
+// =====================
+// SKILL TREE
+// =====================
+
+let skillPoints = 0;
+
+let skills = {
+
+health:0,
+damage:0,
+speed:0
+
+};
+
+function levelReward(){
+
+skillPoints++;
+
+}
+
+function upgradeSkill(type){
+
+if(skillPoints <= 0){
+
+return;
+
+}
+
+skills[type]++;
+
+skillPoints--;
+
+if(type==="health"){
+
+player.maxHp+=20;
+
+}
+
+if(type==="speed"){
+
+player.speed+=1;
+
+}
+
+}
+
+// =====================
+// QUESTS
+// =====================
+
+let quests = [
+
+{
+name:"Kill 25 Enemies",
+goal:25,
+progress:0,
+reward:500,
+done:false
+},
+
+{
+name:"Reach Level 10",
+goal:10,
+progress:0,
+reward:15,
+done:false
+}
+
+];
+
+function updateQuests(){
+
+for(let q of quests){
+
+if(q.done) continue;
+
+if(
+q.name==="Reach Level 10"
+){
+
+q.progress=level;
+
+}
+
+if(
+q.progress>=q.goal
+){
+
+q.done=true;
+
+coins+=q.reward;
+
+alert(
+"Quest Complete:\n"+
+q.name
+);
+
+}
+
+}
+
+}
+
+// =====================
+// MEGA BOSS
+// =====================
+
+class MegaBoss{
+
+constructor(){
+
+this.x=400;
+this.y=100;
+
+this.hp=5000;
+
+this.size=200;
+
+this.speed=0.5;
+
+}
+
+update(){
+
+let dx=
+player.x-this.x;
+
+let dy=
+player.y-this.y;
+
+let dist=
+Math.sqrt(
+dx*dx+dy*dy
+);
+
+if(dist>0){
+
+this.x+=
+(dx/dist)
+*this.speed;
+
+this.y+=
+(dy/dist)
+*this.speed;
+
+}
+
+}
+
+draw(){
+
+ctx.fillStyle=
+"black";
+
+ctx.fillRect(
+this.x,
+this.y,
+this.size,
+this.size
+);
+
+ctx.fillStyle=
+"red";
+
+ctx.fillRect(
+100,
+50,
+this.hp/20,
+20
+);
+
+}
+
+}
+
+let megaBoss=null;
+
+function spawnMegaBoss(){
+
+// ======================================
+// PART 9
+// SOUNDS + TURRETS + DRONES + EVENTS
+// ======================================
+
+// =====================
+// SETTINGS
+// =====================
+
+let settings = {
+
+music:true,
+effects:true,
+showFPS:true
+
+};
+
+function openSettings(){
+
+alert(
+
+`SETTINGS
+
+M = Toggle Music
+
+V = Toggle Effects
+
+F = Toggle FPS
+
+Current:
+
+Music: ${settings.music}
+
+Effects: ${settings.effects}
+
+FPS: ${settings.showFPS}
+
+`
+
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+const k =
+e.key.toLowerCase();
+
+if(k==="o") openSettings();
+
+if(k==="m")
+settings.music =
+!settings.music;
+
+if(k==="v")
+settings.effects =
+!settings.effects;
+
+if(k==="f")
+settings.showFPS =
+!settings.showFPS;
+
+}
+);
+
+// =====================
+// STATS
+// =====================
+
+let stats = {
+
+kills:0,
+shotsFired:0,
+coinsEarned:0,
+distanceDriven:0
+
+};
+
+function displayStats(){
+
+alert(
+
+`STATS
+
+Kills: ${stats.kills}
+
+Shots Fired:
+${stats.shotsFired}
+
+Coins Earned:
+${stats.coinsEarned}
+
+Distance:
+${Math.floor(
+stats.distanceDriven
+)}`
+
+);
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="s"
+){
+
+displayStats();
+
+}
+
+}
+);
+
+// =====================
+// AUTO SAVE
+// =====================
+
+function megaSave(){
+
+localStorage.setItem(
+"megaSave",
+JSON.stringify({
+
+coins,
+gems,
+level,
+xp,
+prestige,
+factories,
+factoryLevel
+
+})
+
+);
+
+}
+
+setInterval(
+megaSave,
+10000
+);
+
+// =====================
+// TURRETS
+// =====================
+
+let turrets=[];
+
+class Turret{
+
+constructor(x,y){
+
+this.x=x;
+this.y=y;
+
+this.cooldown=0;
+
+}
+
+update(){
+
+this.cooldown--;
+
+if(
+this.cooldown<=0 &&
+enemies.length>0
+){
+
+enemies[0].hp-=10;
+
+this.cooldown=60;
+
+}
+
+}
+
+draw(){
+
+ctx.fillStyle=
+"gold";
+
+ctx.fillRect(
+this.x,
+this.y,
+25,
+25
+);
+
+}
+
+}
+
+function placeTurret(){
+
+if(coins>=1000){
+
+coins-=1000;
+
+turrets.push(
+
+new Turret(
+player.x,
+player.y
+)
+
+);
+
+}
+
+}
+
+function updateTurrets(){
+
+for(
+let turret
+of turrets
+){
+
+turret.update();
+turret.draw();
+
+}
+
+}
+
+// =====================
+// DRONE PET
+// =====================
+
+let drone = {
+
+owned:false,
+
+x:0,
+y:0
+
+};
+
+function buyDrone(){
+
+if(gems>=200)
+// ======================================
+// PART 10
+// RANKS + TITLES + SURVIVAL + ENDGAME
+// ======================================
+
+// =====================
+// RANK SYSTEM
+// =====================
+
+let playerRank = "Recruit";
+
+function updateRank(){
+
+if(level >= 5)
+playerRank = "Soldier";
+
+if(level >= 15)
+playerRank = "Veteran";
+
+if(level >= 30)
+playerRank = "Elite";
+
+if(level >= 50)
+playerRank = "Legend";
+
+}
+
+// =====================
+// TITLES
+// =====================
+
+let currentTitle = "Beginner";
+
+function updateTitle(){
+
+if(coins >= 10000)
+currentTitle = "Rich";
+
+if(prestige >= 3)
+currentTitle = "Prestiged";
+
+if(wave >= 25)
+currentTitle = "Wave Master";
+
+}
+
+// =====================
+// SURVIVAL MODE
+// =====================
+
+let survivalMode = false;
+
+function toggleSurvivalMode(){
+
+survivalMode =
+!survivalMode;
+
+if(survivalMode){
+
+alert(
+"Survival Mode Enabled"
+);
+
+}
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="u"
+){
+
+toggleSurvivalMode();
+
+}
+
+}
+);
+
+// =====================
+// DEFENSE MODE
+// =====================
+
+let defenseBaseHP = 1000;
+
+function updateDefense(){
+
+if(!survivalMode)
+return;
+
+if(enemies.length>0){
+
+// ======================================
+// PART 10
+// RANKS + TITLES + SURVIVAL + ENDGAME
+// ======================================
+
+// =====================
+// RANK SYSTEM
+// =====================
+
+let playerRank = "Recruit";
+
+function updateRank(){
+
+if(level >= 5)
+playerRank = "Soldier";
+
+if(level >= 15)
+playerRank = "Veteran";
+
+if(level >= 30)
+playerRank = "Elite";
+
+if(level >= 50)
+playerRank = "Legend";
+
+}
+
+// =====================
+// TITLES
+// =====================
+
+let currentTitle = "Beginner";
+
+function updateTitle(){
+
+if(coins >= 10000)
+currentTitle = "Rich";
+
+if(prestige >= 3)
+currentTitle = "Prestiged";
+
+if(wave >= 25)
+currentTitle = "Wave Master";
+
+}
+
+// =====================
+// SURVIVAL MODE
+// =====================
+
+let survivalMode = false;
+
+function toggleSurvivalMode(){
+
+survivalMode =
+!survivalMode;
+
+if(survivalMode){
+
+alert(
+"Survival Mode Enabled"
+);
+
+}
+
+}
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key.toLowerCase()
+==="u"
+){
+
+toggleSurvivalMode();
+
+}
+
+}
+);
+
+// =====================
+// DEFENSE MODE
+// =====================
+
+let defenseBaseHP = 1000;
+
+function updateDefense(){
+
+if(!survivalMode)
+return;
+
+if(enemies.length>0){
+
+defenseBaseHP -=
+enemies.length*0.01;
+
+}
+
+if(
+defenseBaseHP <= 0
+){
+
+alert(
+"Base Defeated!"
+);
+
+defenseBaseHP = 1000;
+
+}
+
+}
+
+// =====================
+// SPACE ROCKET
+// =====================
+
+let rocketBuilt=false;
+
+function buildRocket(){
+
+if(
+
+coins >= 25000 &&
+gems >= 100
+
+){
+
+coins -= 25000;
+
+gems -= 100;
+
+rocketBuilt=true;
+
+alert(
+"Rocket Completed!"
+);
+
+}
+
+}
+
+// =====================
+// BANK SYSTEM
+// =====================
+
+let bankCoins = 0;
+
+function depositCoins(){
+
+if(coins >= 1000){
+
+coins -= 1000;
+
+bankCoins += 1000;
+
+}
+
+}
+
+setInterval(()=>{
+
+bankCoins +=
+Math.floor(
+bankCoins * 0.01
+);
+
+},60000);
+
+// =====================
+// PLAYER SKINS
+// =====================
+
+let currentSkin =
+"Green";
+
+const skins = {
+
+Green:"#22c55e",
+
+Blue:"#3b82f6",
+
+Gold:"#facc15",
+
+Purple:"#a855f7"
+
+};
+
+function buyGoldSkin(){
+
+if(gems>=50){
+
+gems-=50;
+
+currentSkin="Gold";
+
+}
+
+}
+
+// =====================
+// REPLACE PLAYER DRAW
+// =====================
+
+function drawPlayer(){
+
+ctx.fillStyle=
+skins[currentSkin];
+
+ctx.fillRect(
+
+player.x,
+player.y,
+
+player.w,
+player.h
+
+);
+
+}
+
+// =====================
+// ENDGAME REWARD
+// =====================
+
+function checkEndgame(){
+
+if(
+
+level >= 100 &&
+prestige >= 5 &&
+rocketBuilt
+
+){
+
+alert(
+
+"🏆 YOU COMPLETED\nFINN'S MEGA ARCADE!"
+
+);
+
+}
+
+}
+
+// =====================
+// HUD
+// =====================
+
+function drawPart10HUD(){
+
+ctx.fillStyle=
+"white";
+
+ctx.font=
+"18px Arial";
+
+ctx.fillText(
+"Rank: "+playerRank,
+20,
+1050
+);
+
+ctx.fillText(
+"Title: "+currentTitle,
+20,
+1080
+);
+
+ctx.fillText(
+"Bank: "+bankCoins,
+20,
+1110
+);
+
+ctx.fillText(
+"Base HP: "+
+Math.floor(
+defenseBaseHP
+),
+20,
+1140
+);
+
+if(rocketBuilt){
+
+ctx.fillText(
+"Rocket: Ready",
+20,
+1170
+);
+
+}
+
+}
+
+// =====================
+// HOTKEYS
+// =====================
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+const k =
+e.key.toLowerCase();
+
+if(k==="r")
+buildRocket();
+
+if(k==="b")
+depositCoins();
+
+if(k==="g")
+buyGoldSkin();
+
+}
+);
+
+// =====================
+// ADD TO GAME LOOP
+// =====================
+
+/*
+
+updateRank();
+
+updateTitle();
+
+updateDefense();
+
+checkEndgame();
+
+drawPart10HUD();
+
+*/
