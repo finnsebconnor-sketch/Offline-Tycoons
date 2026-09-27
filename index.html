@@ -6,396 +6,755 @@
 <title>Tycoon World</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+    --bg:#070b14;
+    --panel:#101827;
+    --panel2:#162235;
+    --border:#263852;
+    --text:#fff;
+    --muted:#91a4bd;
+    --accent:#5de2ff;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #050b14;
-    color: white;
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 20% 10%,#182d48 0,transparent 30%),
+        radial-gradient(circle at 80% 80%,#241943 0,transparent 30%),
+        #050810;
+    color:var(--text);
+    font-family:Arial,sans-serif;
+    min-height:100vh;
 }
 
-button {
-    border: none;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-weight: bold;
-    cursor: pointer;
+button{
+    border:0;
+    border-radius:12px;
+    padding:12px 16px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.18s;
 }
 
-button:hover {
-    transform: scale(1.03);
+button:hover{
+    transform:translateY(-2px);
 }
 
-header {
-    height: 70px;
-    background: #091525;
-    border-bottom: 1px solid #263b55;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 22px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+button:active{
+    transform:scale(.96);
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 900;
+header{
+    height:72px;
+    background:#080f1dE8;
+    border-bottom:1px solid #26364f;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(14px);
 }
 
-.logo span {
-    color: #55ddff;
+.logo{
+    font-size:25px;
+    font-weight:900;
 }
 
-header button {
-    background: #172940;
-    color: white;
+.logo span{
+    color:#59dcff;
 }
 
-/* HOME */
-
-main {
-    max-width: 1250px;
-    margin: auto;
-    padding: 25px;
+header button{
+    background:#18263b;
+    color:white;
 }
 
-.hero {
-    text-align: center;
-    padding: 45px 0;
+main{
+    max-width:1350px;
+    margin:auto;
+    padding:25px;
 }
 
-.hero h1 {
-    font-size: clamp(45px, 8vw, 82px);
-    margin: 0;
-    background: linear-gradient(90deg, white, #56e4ff, #9c7cff);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
+.hero{
+    text-align:center;
+    padding:50px 10px 35px;
 }
 
-.hero p {
-    color: #9eb1c8;
-    font-size: 18px;
+.hero h1{
+    margin:0;
+    font-size:clamp(48px,8vw,90px);
+    background:linear-gradient(90deg,#fff,#62e8ff,#9c7cff);
+    color:transparent;
+    background-clip:text;
+    -webkit-background-clip:text;
 }
 
-.games {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
+.hero p{
+    color:#9badc3;
+    font-size:18px;
 }
 
-.card {
-    background: linear-gradient(145deg, #12243b, #0a1423);
-    border: 1px solid #29425e;
-    border-radius: 20px;
-    padding: 19px;
-    min-height: 235px;
-    transition: 0.2s;
-    position: relative;
-    overflow: hidden;
+.badge{
+    display:inline-block;
+    background:#142b43;
+    border:1px solid #2b5574;
+    color:#79e6ff;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:15px;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    border-color: #55dfff;
-    box-shadow: 0 10px 30px #0008;
+/* GAME SELECT */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
 }
 
-.ico {
-    font-size: 48px;
+.game-card{
+    min-height:270px;
+    padding:20px;
+    border:1px solid #273a55;
+    border-radius:22px;
+    background:
+        linear-gradient(145deg,#14243a,#0c1422);
+    position:relative;
+    overflow:hidden;
+    transition:.25s;
 }
 
-.card h2 {
-    margin: 10px 0 5px;
+.game-card:hover{
+    transform:translateY(-8px);
+    border-color:#61ddff;
+    box-shadow:0 20px 50px #0008;
 }
 
-.card p {
-    color: #91a6bc;
-    height: 45px;
-    font-size: 14px;
+.game-card::after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-60px;
+    bottom:-60px;
+    border-radius:50%;
+    background:#5de2ff16;
 }
 
-.card button {
-    width: 100%;
-    background: white;
-    color: #07101b;
+.game-icon{
+    font-size:55px;
 }
 
-.offline {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    background: #17304a;
-    padding: 5px 8px;
-    border-radius: 7px;
-    font-size: 10px;
-    color: #8fdfff;
+.game-card h2{
+    margin:12px 0 7px;
+}
+
+.game-card p{
+    color:#91a5bd;
+    min-height:45px;
+    font-size:14px;
+}
+
+.play{
+    width:100%;
+    background:white;
+    color:#08101c;
+    margin-top:10px;
+}
+
+.offline{
+    position:absolute;
+    right:12px;
+    top:12px;
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:10px;
+    background:#15304a;
+    color:#85e8ff;
 }
 
 /* GAME */
 
-.hidden {
-    display: none;
+.hidden{
+    display:none!important;
 }
 
-.head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
+.game-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
 }
 
-.head button {
-    background: #172940;
-    color: white;
+.game-top h1{
+    margin:0 0 5px;
 }
 
-.layout {
-    display: grid;
-    grid-template-columns: 1.5fr 0.8fr;
-    gap: 18px;
+.subtitle{
+    color:#91a5bd;
 }
 
-/* GAME SCENE */
+.top-buttons{
+    display:flex;
+    gap:8px;
+}
 
-.scene {
-    height: 510px;
-    border-radius: 24px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid #2c4764;
+.back{
+    background:#17263b;
+    color:white;
+}
+
+.reset{
+    background:#3b1c27;
+    color:#ff9aaa;
+}
+
+.game-layout{
+    display:grid;
+    grid-template-columns:1.5fr .75fr;
+    gap:18px;
+}
+
+.world{
+    min-height:570px;
+    border-radius:26px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #30445e;
+    background:#172333;
+    box-shadow:0 20px 60px #0005;
+}
+
+.world-header{
+    position:absolute;
+    left:18px;
+    top:18px;
+    z-index:20;
+    padding:10px 14px;
+    border-radius:12px;
+    background:#07101ddd;
+    border:1px solid #ffffff18;
+    font-weight:bold;
+}
+
+.stats-panel{
+    background:#0d1726;
+    border:1px solid #293c56;
+    border-radius:22px;
+    padding:17px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.stat{
+    background:#142238;
+    border-radius:12px;
+    padding:11px;
+}
+
+.stat strong{
+    display:block;
+    font-size:18px;
+}
+
+.stat small{
+    color:#8297af;
+}
+
+.upgrade{
+    background:#111e30;
+    border:1px solid #293e59;
+    border-radius:15px;
+    padding:13px;
+    margin-top:10px;
+}
+
+.upgrade h3{
+    margin:0 0 5px;
+}
+
+.upgrade p{
+    color:#8fa4bc;
+    font-size:13px;
+}
+
+.upgrade button{
+    width:100%;
+    background:#21bd83;
+    color:white;
+}
+
+.upgrade button:disabled{
+    background:#29384b;
+    color:#77879b;
+    cursor:not-allowed;
+}
+
+.log{
+    height:105px;
+    overflow:auto;
+    margin-top:12px;
+    background:#07101b;
+    border-radius:12px;
+    padding:10px;
+    color:#8ca3ba;
+    font-size:12px;
+}
+
+/* GENERIC WORLD OBJECTS */
+
+.character{
+    position:absolute;
+    z-index:15;
+    font-size:40px;
+    animation:walk 5s ease-in-out infinite;
+}
+
+.char1{left:15%;bottom:17%}
+.char2{left:48%;bottom:28%;animation-delay:-2s}
+.char3{right:15%;bottom:18%;animation-delay:-3.5s}
+
+@keyframes walk{
+    0%,100%{transform:translateX(-20px)}
+    50%{transform:translateX(70px) translateY(-5px)}
+}
+
+/* PIZZA */
+
+.pizza-world{
     background:
-        linear-gradient(
-            #4ab9e6 0 52%,
-            #63a956 52% 78%,
-            #303942 78%
-        );
+        linear-gradient(#542b24 0 62%,#332019 62%);
 }
 
-.scene:before {
-    content: "";
-    position: absolute;
-    left: 7%;
-    bottom: 22%;
-    width: 38%;
-    height: 38%;
-    background: #30465d;
-    border: 5px solid #1a293b;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 15px 15px #0003;
+.pizza-kitchen{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:18%;
+    height:44%;
+    background:#c56b3c;
+    border:7px solid #74351f;
+    border-radius:18px;
 }
 
-.scene:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 22%;
-    background: #303942;
-    border-top: 6px solid #6b777e;
+.oven{
+    position:absolute;
+    left:8%;
+    top:15%;
+    width:27%;
+    height:70%;
+    background:#222831;
+    border-radius:14px;
+    border:5px solid #10151b;
 }
 
-.label {
-    position: absolute;
-    z-index: 4;
-    top: 15px;
-    left: 15px;
-    background: #06101ddd;
-    padding: 9px 12px;
-    border-radius: 10px;
-    font-weight: bold;
+.oven::after{
+    content:"🔥";
+    position:absolute;
+    font-size:40px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
 }
 
-.actor {
-    position: absolute;
-    z-index: 5;
-    font-size: 38px;
-    animation: move 6s linear infinite;
+.pizza-table{
+    position:absolute;
+    right:8%;
+    top:20%;
+    width:40%;
+    height:18%;
+    background:#8b4d28;
+    border-radius:10px;
 }
 
-.a1 {
-    left: 12%;
-    bottom: 20%;
+.pizza{
+    position:absolute;
+    width:115px;
+    height:115px;
+    border-radius:50%;
+    background:#e7a13d;
+    border:15px solid #d77b2e;
+    box-shadow:inset 0 0 0 5px #ffe09a;
+    left:50%;
+    top:48%;
+    transform:translate(-50%,-50%);
+    cursor:pointer;
+    transition:.15s;
 }
 
-.a2 {
-    left: 52%;
-    bottom: 30%;
-    animation-delay: -2s;
+.pizza:hover{
+    transform:translate(-50%,-50%) scale(1.08);
 }
 
-.a3 {
-    right: 12%;
-    bottom: 17%;
-    animation-delay: -4s;
+/* COOKIE */
+
+.cookie-world{
+    background:
+        radial-gradient(circle at 50% 50%,#7d4a24,#2a160d);
 }
 
-@keyframes move {
-    0%, 100% {
-        transform: translateX(-20px);
+.big-cookie{
+    position:absolute;
+    left:50%;
+    top:52%;
+    transform:translate(-50%,-50%);
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 30% 30%,#6b351b 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 25%,#6b351b 0 6px,transparent 7px),
+        radial-gradient(circle at 50% 70%,#6b351b 0 6px,transparent 7px),
+        radial-gradient(circle at 25% 70%,#6b351b 0 5px,transparent 6px),
+        #d58a42;
+    border:10px solid #8c4e23;
+    box-shadow:0 20px 40px #0008,inset 0 0 30px #fff2;
+    cursor:pointer;
+}
+
+.big-cookie:active{
+    transform:translate(-50%,-50%) scale(.94);
+}
+
+/* FOOTBALL */
+
+.football-world{
+    background:
+        linear-gradient(#5fb9ed 0 45%,#287a3d 45% 100%);
+}
+
+.pitch{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:10%;
+    height:55%;
+    background:#25833e;
+    border:5px solid white;
+    border-radius:15px;
+}
+
+.pitch::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:white;
+}
+
+.ball{
+    position:absolute;
+    font-size:45px;
+    left:48%;
+    top:45%;
+    animation:ballmove 3s infinite alternate ease-in-out;
+}
+
+@keyframes ballmove{
+    to{transform:translate(120px,-40px) rotate(360deg)}
+}
+
+/* GAMING */
+
+.gaming-world{
+    background:
+        radial-gradient(circle at 50% 20%,#44329a,#101022 60%);
+}
+
+.gaming-room{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:10%;
+    height:58%;
+    background:#15152b;
+    border:5px solid #312b67;
+    border-radius:18px;
+}
+
+.setup{
+    position:absolute;
+    bottom:15%;
+    font-size:70px;
+    animation:float 2.5s infinite ease-in-out;
+}
+
+.setup1{left:10%}
+.setup2{left:43%;animation-delay:-.8s}
+.setup3{right:10%;animation-delay:-1.6s}
+
+@keyframes float{
+    50%{transform:translateY(-8px)}
+}
+
+/* HOTEL */
+
+.hotel-world{
+    background:
+        linear-gradient(#80c9ed 0 38%,#3e8f50 38%);
+}
+
+.hotel-building{
+    position:absolute;
+    left:20%;
+    right:20%;
+    bottom:10%;
+    height:65%;
+    background:#e8dfc8;
+    border:8px solid #725e45;
+    border-radius:12px 12px 0 0;
+}
+
+.window{
+    position:absolute;
+    width:35px;
+    height:45px;
+    background:#6fd5ed;
+    border:4px solid #574a3b;
+}
+
+/* SUPERMARKET */
+
+.shop-world{
+    background:
+        linear-gradient(#9ed8ed 0 35%,#6d8e54 35% 100%);
+}
+
+.shop{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:12%;
+    height:58%;
+    background:#e9e9e9;
+    border:7px solid #555;
+    border-radius:12px;
+}
+
+.shelf{
+    position:absolute;
+    width:22%;
+    height:48%;
+    bottom:18%;
+    background:#9b6339;
+    border:5px solid #5d3921;
+}
+
+.s1{left:8%}
+.s2{left:39%}
+.s3{right:8%}
+
+/* RACING */
+
+.racing-world{
+    background:#292d36;
+}
+
+.track{
+    position:absolute;
+    left:8%;
+    right:8%;
+    top:23%;
+    bottom:10%;
+    border:45px solid #424752;
+    border-radius:50%;
+}
+
+.track::after{
+    content:"";
+    position:absolute;
+    inset:-23px;
+    border:4px dashed white;
+    border-radius:50%;
+}
+
+.car{
+    position:absolute;
+    font-size:45px;
+    left:45%;
+    top:40%;
+    animation:race 4s linear infinite;
+}
+
+@keyframes race{
+    0%{transform:translate(-100px,0)}
+    25%{transform:translate(100px,-80px)}
+    50%{transform:translate(150px,60px)}
+    75%{transform:translate(-100px,100px)}
+    100%{transform:translate(-100px,0)}
+}
+
+/* CLOTHING */
+
+.clothing-world{
+    background:
+        linear-gradient(135deg,#e5d4bd,#9b7c62);
+}
+
+.shop-rack{
+    position:absolute;
+    left:15%;
+    right:15%;
+    bottom:17%;
+    height:48%;
+    background:#6d4834;
+    border-radius:12px;
+}
+
+.shirt{
+    position:absolute;
+    font-size:85px;
+    top:25%;
+}
+
+/* FISHING */
+
+.fishing-world{
+    background:
+        linear-gradient(#62bce5 0 42%,#247ca5 42% 100%);
+}
+
+.boat{
+    position:absolute;
+    left:35%;
+    top:50%;
+    font-size:110px;
+    animation:boat 3s infinite ease-in-out;
+}
+
+@keyframes boat{
+    50%{transform:translateY(-8px) rotate(-2deg)}
+}
+
+.fish{
+    position:absolute;
+    font-size:35px;
+    animation:fish 5s linear infinite;
+}
+
+.fish1{left:15%;top:65%}
+.fish2{left:55%;top:72%;animation-delay:-2s}
+.fish3{right:15%;top:60%;animation-delay:-4s}
+
+@keyframes fish{
+    50%{transform:translateX(100px)}
+}
+
+/* ISLAND */
+
+.island-world{
+    background:
+        linear-gradient(#63c8ed 0 52%,#2496ad 52%);
+}
+
+.island{
+    position:absolute;
+    left:12%;
+    right:12%;
+    bottom:8%;
+    height:48%;
+    background:#61b84c;
+    border-radius:50%;
+}
+
+.palm{
+    position:absolute;
+    font-size:85px;
+    bottom:30%;
+}
+
+.palm1{left:15%}
+.palm2{right:15%}
+
+/* POPUPS */
+
+.money-pop{
+    position:absolute;
+    z-index:100;
+    color:#ffe46b;
+    font-weight:900;
+    pointer-events:none;
+    animation:moneyUp 1s forwards;
+}
+
+@keyframes moneyUp{
+    to{
+        transform:translateY(-60px);
+        opacity:0;
+    }
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    top:25%;
+    transform:translateX(-50%);
+    background:#101c2d;
+    border:2px solid #5de2ff;
+    padding:22px 30px;
+    border-radius:20px;
+    z-index:200;
+    text-align:center;
+    box-shadow:0 20px 60px #000b;
+}
+
+.toast h2{
+    margin:0 0 5px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+    .games{
+        grid-template-columns:repeat(3,1fr);
     }
 
-    50% {
-        transform: translateX(90px) translateY(-6px);
+    .game-layout{
+        grid-template-columns:1fr;
     }
 }
 
-/* PANELS */
+@media(max-width:650px){
+    .games{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-.panel {
-    background: #0c1828;
-    border: 1px solid #29415d;
-    border-radius: 20px;
-    padding: 18px;
-}
+    .world{
+        min-height:430px;
+    }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.stat {
-    background: #122238;
-    padding: 12px;
-    border-radius: 11px;
-}
-
-.stat b {
-    display: block;
-    font-size: 18px;
-}
-
-.stat small {
-    color: #8298af;
-}
-
-.upgrade {
-    border: 1px solid #29415d;
-    border-radius: 14px;
-    padding: 13px;
-    margin-top: 10px;
-    background: #101f32;
-}
-
-.upgrade h3 {
-    margin: 0 0 5px;
-}
-
-.upgrade p {
-    font-size: 13px;
-    color: #90a6bd;
-}
-
-.upgrade button {
-    width: 100%;
-    background: #20b981;
-    color: white;
-}
-
-.upgrade button:disabled {
-    background: #29394c;
-    color: #7c8b9b;
-    cursor: not-allowed;
-}
-
-.log {
-    margin-top: 12px;
-    height: 105px;
-    overflow: auto;
-    background: #07111e;
-    border-radius: 10px;
-    padding: 10px;
-    color: #8fa6bd;
-    font-size: 12px;
-}
-
-.coin {
-    position: absolute;
-    z-index: 8;
-    color: #ffe26a;
-    font-weight: bold;
-    animation: coin 1.2s forwards;
-    pointer-events: none;
-}
-
-@keyframes coin {
-    to {
-        transform: translateY(-45px);
-        opacity: 0;
+    .big-cookie{
+        width:180px;
+        height:180px;
     }
 }
 
-/* LEVEL UP */
-
-.levelUp {
-    position: fixed;
-    left: 50%;
-    top: 25%;
-    transform: translateX(-50%);
-    background: #101f32;
-    border: 2px solid #55dfff;
-    border-radius: 20px;
-    padding: 25px 35px;
-    text-align: center;
-    z-index: 100;
-    box-shadow: 0 15px 50px #000b;
-    animation: pop 0.4s ease;
-}
-
-.levelUp h2 {
-    margin: 0 0 8px;
-}
-
-@keyframes pop {
-    from {
-        transform: translateX(-50%) scale(0.5);
-        opacity: 0;
+@media(max-width:450px){
+    .games{
+        grid-template-columns:1fr;
     }
 
-    to {
-        transform: translateX(-50%) scale(1);
-        opacity: 1;
-    }
-}
-
-/* MOBILE */
-
-@media(max-width:1000px) {
-    .games {
-        grid-template-columns: repeat(3, 1fr);
+    main{
+        padding:14px;
     }
 
-    .layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width:650px) {
-    .games {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .scene {
-        height: 390px;
-    }
-}
-
-@media(max-width:430px) {
-    .games {
-        grid-template-columns: 1fr;
-    }
-
-    main {
-        padding: 15px;
+    header{
+        padding:0 14px;
     }
 }
 </style>
@@ -405,392 +764,430 @@ main {
 
 <header>
     <div class="logo">🎮 TYCOON <span>WORLD</span></div>
-    <button onclick="home()">GAMES</button>
+    <button onclick="showHome()">GAMES</button>
 </header>
-
-<!-- HOME PAGE -->
 
 <main id="home">
 
     <section class="hero">
+        <div class="badge">10 GAMES • OFFLINE • FREE</div>
         <h1>TYCOON WORLD</h1>
-        <p>
-            10 playable tycoon games — build, upgrade and earn completely offline.
-        </p>
+        <p>Build businesses, click, collect, upgrade and become a tycoon.</p>
     </section>
 
-    <section class="games" id="gameCards"></section>
+    <section class="games" id="games"></section>
 
 </main>
 
-<!-- GAME PAGE -->
 
 <main id="game" class="hidden"></main>
 
+
 <script>
 
-/* =========================
-   ALL 10 GAMES
-========================= */
+/* =====================================
+   GAME DATA
+===================================== */
 
 const games = {
 
-    factory: {
-        icon: "🏭",
-        name: "Factory Tycoon",
-        description: "Build machines and earn from production."
+    pizza:{
+        icon:"🍕",
+        name:"Pizza Tycoon",
+        description:"Make pizzas, serve customers and build your pizza empire.",
+        type:"pizza",
+        color:"#ff7043"
     },
 
-    fastfood: {
-        icon: "🍔",
-        name: "Fast Food Tycoon",
-        description: "Serve customers and expand your restaurant."
+    cookie:{
+        icon:"🍪",
+        name:"Cookie Clicker",
+        description:"Click cookies, hire bakers and build a cookie empire.",
+        type:"cookie",
+        color:"#d89048"
     },
 
-    football: {
-        icon: "⚽",
-        name: "Football Tycoon",
-        description: "Build a club, stadium and training centre."
+    football:{
+        icon:"⚽",
+        name:"Football Tycoon",
+        description:"Build your club, train players and upgrade your stadium.",
+        type:"football",
+        color:"#42d17a"
     },
 
-    hotel: {
-        icon: "🏨",
-        name: "Hotel Tycoon",
-        description: "Build rooms and attract more guests."
+    gaming:{
+        icon:"🎮",
+        name:"Gaming Tycoon",
+        description:"Build gaming rooms and attract more players.",
+        type:"gaming",
+        color:"#9d72ff"
     },
 
-    gaming: {
-        icon: "🎮",
-        name: "Gaming Tycoon",
-        description: "Open a gaming centre full of players."
+    hotel:{
+        icon:"🏨",
+        name:"Hotel Tycoon",
+        description:"Build rooms, welcome guests and grow your hotel.",
+        type:"hotel",
+        color:"#64c7e8"
     },
 
-    supermarket: {
-        icon: "🛒",
-        name: "Supermarket Tycoon",
-        description: "Stock shelves and serve shoppers."
+    supermarket:{
+        icon:"🛒",
+        name:"Supermarket Tycoon",
+        description:"Stock shelves, serve shoppers and expand your store.",
+        type:"supermarket",
+        color:"#73c94c"
     },
 
-    racing: {
-        icon: "🏎️",
-        name: "Racing Tycoon",
-        description: "Build a track and host races."
+    racing:{
+        icon:"🏎️",
+        name:"Racing Tycoon",
+        description:"Run races, upgrade cars and build the ultimate track.",
+        type:"racing",
+        color:"#ff4d5e"
     },
 
-    island: {
-        icon: "🏝️",
-        name: "Island Tycoon",
-        description: "Turn an island into a tourist resort."
+    clothing:{
+        icon:"👕",
+        name:"Clothing Tycoon",
+        description:"Create clothes, sell collections and grow your brand.",
+        type:"clothing",
+        color:"#e89bff"
     },
 
-    fishing: {
-        icon: "🎣",
-        name: "Fishing Tycoon",
-        description: "Build boats, docks and a fishing business."
+    fishing:{
+        icon:"🎣",
+        name:"Fishing Tycoon",
+        description:"Catch fish, upgrade boats and discover new waters.",
+        type:"fishing",
+        color:"#45c9ed"
     },
 
-    clothing: {
-        icon: "👕",
-        name: "Clothing Tycoon",
-        description: "Make clothes and grow your fashion brand."
+    island:{
+        icon:"🏝️",
+        name:"Island Tycoon",
+        description:"Build attractions and turn an island into a resort.",
+        type:"island",
+        color:"#54d6a0"
     }
 
 };
 
 
-/* =========================
-   UPGRADES
-========================= */
+/* =====================================
+   UPGRADE DATA
+===================================== */
 
-const upgrades = [
+const upgradeSets = {
 
-    {
-        name: "Starter Upgrade",
-        price: 50,
-        income: 2
-    },
+    pizza:[
+        ["Better Oven",50,2],
+        ["Pizza Chef",150,7],
+        ["Delivery Scooter",500,24],
+        ["Second Restaurant",1500,80],
+        ["Pizza Factory",5000,250],
+        ["Pizza Empire",15000,800]
+    ],
 
-    {
-        name: "Business Upgrade",
-        price: 150,
-        income: 7
-    },
+    cookie:[
+        ["Cursor",15,1],
+        ["Grandma",100,5],
+        ["Cookie Farm",500,20],
+        ["Cookie Factory",2000,80],
+        ["Cookie Mine",8000,300],
+        ["Cookie Portal",30000,1200]
+    ],
 
-    {
-        name: "Big Expansion",
-        price: 500,
-        income: 24
-    },
+    football:[
+        ["Training Cone",50,2],
+        ["Youth Academy",200,8],
+        ["Better Players",700,30],
+        ["Stadium Stand",2500,100],
+        ["Big Stadium",10000,400],
+        ["Champions League",40000,1600]
+    ],
 
-    {
-        name: "Mega Upgrade",
-        price: 1500,
-        income: 80
-    },
+    gaming:[
+        ["Gaming PC",50,2],
+        ["Console Setup",180,8],
+        ["Gaming Room",600,28],
+        ["VR Zone",2500,110],
+        ["Esports Arena",10000,450],
+        ["Gaming Empire",40000,1800]
+    ],
 
-    {
-        name: "Empire Upgrade",
-        price: 5000,
-        income: 250
-    },
+    hotel:[
+        ["Small Room",50,2],
+        ["Double Room",180,8],
+        ["Luxury Room",600,25],
+        ["Hotel Floor",2500,100],
+        ["Penthouse",10000,450],
+        ["Resort Tower",40000,1800]
+    ],
 
-    {
-        name: "Ultimate Upgrade",
-        price: 15000,
-        income: 800
-    }
+    supermarket:[
+        ["Shelf",50,2],
+        ["Checkout",180,8],
+        ["Stock Room",600,28],
+        ["New Aisle",2500,110],
+        ["Second Store",10000,450],
+        ["Supermarket Chain",40000,1800]
+    ],
 
-];
+    racing:[
+        ["Go-Kart",50,2],
+        ["Fast Car",200,8],
+        ["Race Event",700,30],
+        ["Track Upgrade",2500,120],
+        ["Grand Prix",10000,500],
+        ["Racing Empire",40000,2000]
+    ],
+
+    clothing:[
+        ["T-Shirt",50,2],
+        ["Designer",200,8],
+        ["Clothing Rack",700,30],
+        ["Fashion Store",2500,120],
+        ["Fashion Show",10000,500],
+        ["Global Brand",40000,2000]
+    ],
+
+    fishing:[
+        ["Fishing Rod",50,2],
+        ["Small Boat",180,8],
+        ["Fishing Crew",600,28],
+        ["Large Boat",2500,110],
+        ["Fishing Fleet",10000,450],
+        ["Ocean Empire",40000,1800]
+    ],
+
+    island:[
+        ["Beach Hut",50,2],
+        ["Restaurant",200,8],
+        ["Tourist Attraction",700,30],
+        ["Hotel",2500,120],
+        ["Theme Park",10000,500],
+        ["Island Resort",40000,2000]
+    ]
+
+};
 
 
-/* =========================
-   GAME VARIABLES
-========================= */
+/* =====================================
+   STATE
+===================================== */
 
-let currentGame = "";
-let state = {};
+let current = null;
+let state = null;
 let timer = null;
 
 
-/* =========================
-   CREATE GAME CARDS
-========================= */
+/* =====================================
+   HOME CARDS
+===================================== */
 
-function createCards() {
+function buildCards(){
 
-    const container = document.getElementById("gameCards");
+    const container =
+        document.getElementById("games");
 
-    container.innerHTML = "";
+    for(const id in games){
 
-    for (const id in games) {
-
-        const game = games[id];
+        const g = games[id];
 
         container.innerHTML += `
 
-            <article class="card">
+            <article class="game-card">
 
                 <div class="offline">
                     OFFLINE
                 </div>
 
-                <div class="ico">
-                    ${game.icon}
+                <div class="game-icon">
+                    ${g.icon}
                 </div>
 
                 <h2>
-                    ${game.name}
+                    ${g.name}
                 </h2>
 
                 <p>
-                    ${game.description}
+                    ${g.description}
                 </p>
 
-                <button onclick="startGame('${id}')">
+                <button
+                    class="play"
+                    onclick="startGame('${id}')"
+                >
                     PLAY NOW
                 </button>
 
             </article>
 
         `;
+
     }
+
 }
 
 
-/* =========================
-   LOAD SAVE
-========================= */
+/* =====================================
+   SAVE / LOAD
+===================================== */
 
-function loadGame(id) {
-
-    const saved =
-        localStorage.getItem("tycoon_" + id);
-
-    if (saved) {
-
-        return JSON.parse(saved);
-
-    }
+function newState(){
 
     return {
 
-        money: 100,
+        money:100,
 
-        owned: [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+        owned:[
+            0,0,0,0,0,0
         ],
 
-        level: 1,
+        level:1,
 
-        totalEarned: 0
+        clicks:0,
+
+        total:0
 
     };
 
 }
 
 
-/* =========================
-   SAVE GAME
-========================= */
+function load(id){
 
-function saveGame() {
+    try{
 
-    localStorage.setItem(
-        "tycoon_" + currentGame,
-        JSON.stringify(state)
-    );
-
-}
-
-
-/* =========================
-   MONEY FORMAT
-========================= */
-
-function money(number) {
-
-    return "$" +
-        Math.floor(number)
-        .toLocaleString();
-
-}
-
-
-/* =========================
-   CALCULATE INCOME
-========================= */
-
-function getIncome() {
-
-    let income = 0;
-
-    for (let i = 0; i < upgrades.length; i++) {
-
-        income +=
-            state.owned[i] *
-            upgrades[i].income;
-
-    }
-
-    return income;
-
-}
-
-
-/* =========================
-   HOME
-========================= */
-
-function home() {
-
-    clearInterval(timer);
-
-    document
-        .getElementById("game")
-        .classList.add("hidden");
-
-    document
-        .getElementById("home")
-        .classList.remove("hidden");
-
-}
-
-
-/* =========================
-   START GAME
-========================= */
-
-function startGame(id) {
-
-    currentGame = id;
-
-    state = loadGame(id);
-
-    document
-        .getElementById("home")
-        .classList.add("hidden");
-
-    document
-        .getElementById("game")
-        .classList.remove("hidden");
-
-    renderGame();
-
-    clearInterval(timer);
-
-    timer = setInterval(tick, 1000);
-
-    window.scrollTo(0, 0);
-
-}
-
-
-/* =========================
-   RENDER GAME
-========================= */
-
-function renderGame() {
-
-    const game =
-        games[currentGame];
-
-    const income =
-        getIncome();
-
-    let upgradesHTML = "";
-
-    for (
-        let i = 0;
-        i < upgrades.length;
-        i++
-    ) {
-
-        const upgrade =
-            upgrades[i];
-
-        const cost =
-            Math.floor(
-                upgrade.price *
-                Math.pow(
-                    1.3,
-                    state.owned[i]
-                )
+        const saved =
+            localStorage.getItem(
+                "TW_" + id
             );
 
-        upgradesHTML += `
+        if(saved){
 
-            <div class="upgrade">
+            return JSON.parse(saved);
 
-                <h3>
-                    ${upgrade.name}
-                </h3>
+        }
 
-                <p>
-                    Owned:
-                    <span>
-                        ${state.owned[i]}
-                    </span>
+    }catch(e){}
 
-                    ·
+    return newState();
 
-                    +${upgrade.income}
-                    cash/sec
-                </p>
+}
 
-                <button
-                    onclick="buyUpgrade(${i})"
-                    ${state.money < cost ? "disabled" : ""}
-                >
 
-                    Buy for
-                    $${cost.toLocaleString()}
+function save(){
 
-                </button>
+    try{
+
+        localStorage.setItem(
+            "TW_" + current,
+            JSON.stringify(state)
+        );
+
+    }catch(e){}
+
+}
+
+
+/* =====================================
+   INCOME
+===================================== */
+
+function income(){
+
+    const list =
+        upgradeSets[current];
+
+    let total = 0;
+
+    list.forEach((u,i)=>{
+
+        total +=
+            state.owned[i] *
+            u[2];
+
+    });
+
+    return total;
+
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+function startGame(id){
+
+    current = id;
+
+    state = load(id);
+
+    document
+        .getElementById("home")
+        .classList.add("hidden");
+
+    document
+        .getElementById("game")
+        .classList.remove("hidden");
+
+    render();
+
+    clearInterval(timer);
+
+    timer =
+        setInterval(tick,1000);
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =====================================
+   WORLD
+===================================== */
+
+function worldHTML(){
+
+    const type =
+        games[current].type;
+
+    if(type==="pizza"){
+
+        return `
+
+            <div class="world pizza-world">
+
+                <div class="world-header">
+                    🍕 PIZZA KITCHEN
+                </div>
+
+                <div class="pizza-kitchen">
+
+                    <div class="oven"></div>
+
+                    <div class="pizza-table"></div>
+
+                </div>
+
+                <div class="pizza"
+                     onclick="pizzaClick()">
+                </div>
+
+                <div class="character char1">
+                    👨‍🍳
+                </div>
+
+                <div class="character char2">
+                    🍕
+                </div>
+
+                <div class="character char3">
+                    🧑
+                </div>
 
             </div>
 
@@ -799,30 +1196,410 @@ function renderGame() {
     }
 
 
+    if(type==="cookie"){
+
+        return `
+
+            <div class="world cookie-world">
+
+                <div class="world-header">
+                    🍪 COOKIE FACTORY
+                </div>
+
+                <div
+                    class="big-cookie"
+                    onclick="cookieClick()"
+                    title="Click the cookie!"
+                ></div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="football"){
+
+        return `
+
+            <div class="world football-world">
+
+                <div class="world-header">
+                    ⚽ CLUB STADIUM
+                </div>
+
+                <div class="pitch"></div>
+
+                <div class="ball">
+                    ⚽
+                </div>
+
+                <div class="character char1">
+                    🧑‍🤝‍🧑
+                </div>
+
+                <div class="character char3">
+                    🏃
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="gaming"){
+
+        return `
+
+            <div class="world gaming-world">
+
+                <div class="world-header">
+                    🎮 GAMING CENTRE
+                </div>
+
+                <div class="gaming-room">
+
+                    <div class="setup setup1">
+                        🖥️
+                    </div>
+
+                    <div class="setup setup2">
+                        🎮
+                    </div>
+
+                    <div class="setup setup3">
+                        🖥️
+                    </div>
+
+                </div>
+
+                <div class="character char1">
+                    🧑
+                </div>
+
+                <div class="character char3">
+                    👾
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="hotel"){
+
+        return `
+
+            <div class="world hotel-world">
+
+                <div class="world-header">
+                    🏨 GRAND HOTEL
+                </div>
+
+                <div class="hotel-building">
+
+                    <div class="window" style="left:12%;top:15%"></div>
+                    <div class="window" style="left:42%;top:15%"></div>
+                    <div class="window" style="right:12%;top:15%"></div>
+
+                    <div class="window" style="left:12%;top:48%"></div>
+                    <div class="window" style="left:42%;top:48%"></div>
+                    <div class="window" style="right:12%;top:48%"></div>
+
+                </div>
+
+                <div class="character char1">
+                    🧳
+                </div>
+
+                <div class="character char3">
+                    🧑
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="supermarket"){
+
+        return `
+
+            <div class="world shop-world">
+
+                <div class="world-header">
+                    🛒 SUPERMARKET
+                </div>
+
+                <div class="shop">
+
+                    <div class="shelf s1">
+                        🍎🥫
+                    </div>
+
+                    <div class="shelf s2">
+                        🥛🍞
+                    </div>
+
+                    <div class="shelf s3">
+                        🥤🍫
+                    </div>
+
+                </div>
+
+                <div class="character char1">
+                    🛒
+                </div>
+
+                <div class="character char3">
+                    🧑
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="racing"){
+
+        return `
+
+            <div class="world racing-world">
+
+                <div class="world-header">
+                    🏎️ RACE TRACK
+                </div>
+
+                <div class="track"></div>
+
+                <div class="car">
+                    🏎️
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="clothing"){
+
+        return `
+
+            <div class="world clothing-world">
+
+                <div class="world-header">
+                    👕 FASHION STORE
+                </div>
+
+                <div class="shop-rack">
+
+                    <div
+                        class="shirt"
+                        style="left:15%"
+                    >
+                        👕
+                    </div>
+
+                    <div
+                        class="shirt"
+                        style="left:42%"
+                    >
+                        👚
+                    </div>
+
+                    <div
+                        class="shirt"
+                        style="right:15%"
+                    >
+                        🧥
+                    </div>
+
+                </div>
+
+                <div class="character char1">
+                    🧑
+                </div>
+
+                <div class="character char3">
+                    🛍️
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="fishing"){
+
+        return `
+
+            <div class="world fishing-world">
+
+                <div class="world-header">
+                    🎣 FISHING DOCK
+                </div>
+
+                <div class="boat">
+                    🚤
+                </div>
+
+                <div class="fish fish1">
+                    🐟
+                </div>
+
+                <div class="fish fish2">
+                    🐠
+                </div>
+
+                <div class="fish fish3">
+                    🐟
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type==="island"){
+
+        return `
+
+            <div class="world island-world">
+
+                <div class="world-header">
+                    🏝️ TROPICAL ISLAND
+                </div>
+
+                <div class="island"></div>
+
+                <div class="palm palm1">
+                    🌴
+                </div>
+
+                <div class="palm palm2">
+                    🌴
+                </div>
+
+                <div class="character char1">
+                    🧑
+                </div>
+
+                <div class="character char3">
+                    🏄
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================
+   RENDER
+===================================== */
+
+function render(){
+
+    const g =
+        games[current];
+
+    const upgrades =
+        upgradeSets[current];
+
+    const inc =
+        income();
+
+    let html = "";
+
+
+    upgrades.forEach((u,i)=>{
+
+        const cost =
+            Math.floor(
+                u[1] *
+                Math.pow(
+                    1.3,
+                    state.owned[i]
+                )
+            );
+
+        html += `
+
+            <div class="upgrade">
+
+                <h3>
+                    ${u[0]}
+                </h3>
+
+                <p>
+                    Owned:
+                    ${state.owned[i]}
+                    · +${u[2]}/sec
+                </p>
+
+                <button
+                    onclick="buy(${i})"
+                    ${state.money < cost ? "disabled":""}
+                >
+                    Buy for
+                    $${cost.toLocaleString()}
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
     document.getElementById("game").innerHTML = `
 
-        <div class="head">
+        <div class="game-top">
 
             <div>
 
                 <h1>
-                    ${game.icon}
-                    ${game.name}
+                    ${g.icon}
+                    ${g.name}
                 </h1>
 
-                <span style="color:#91a7bd">
-                    Runs locally and saves on this device.
-                </span>
+                <div class="subtitle">
+                    ${g.description}
+                </div>
 
             </div>
 
-            <div>
+            <div class="top-buttons">
 
-                <button onclick="home()">
+                <button
+                    class="back"
+                    onclick="showHome()"
+                >
                     ← GAMES
                 </button>
 
-                <button onclick="resetGame()">
+                <button
+                    class="reset"
+                    onclick="resetGame()"
+                >
                     RESET
                 </button>
 
@@ -831,55 +1608,27 @@ function renderGame() {
         </div>
 
 
-        <div class="layout">
-
+        <div class="game-layout">
 
             <div>
 
-
-                <div class="scene">
-
-                    <div class="label">
-                        ${game.icon}
-                        LIVE TYCOON
-                    </div>
-
-
-                    <div class="actor a1">
-                        🧑
-                    </div>
-
-
-                    <div class="actor a2">
-                        ${game.icon}
-                    </div>
-
-
-                    <div class="actor a3">
-                        🚶
-                    </div>
-
-                </div>
-
+                ${worldHTML()}
 
                 <div
-                    class="panel"
-                    style="margin-top:14px"
+                    class="stats-panel"
+                    style="margin-top:15px"
                 >
 
-                    <b>
+                    <strong>
                         Business Activity
-                    </b>
+                    </strong>
 
                     <div
                         class="log"
                         id="log"
                     >
-
                         Your business is open.<br>
-                        Customers are moving around.<br>
-                        Buy upgrades to increase your income.
-
+                        Keep upgrading to grow faster.
                     </div>
 
                 </div>
@@ -887,17 +1636,15 @@ function renderGame() {
             </div>
 
 
-            <aside class="panel">
-
+            <aside class="stats-panel">
 
                 <div class="stats">
 
-
                     <div class="stat">
 
-                        <b id="cash">
+                        <strong id="cash">
                             ${money(state.money)}
-                        </b>
+                        </strong>
 
                         <small>
                             CASH
@@ -905,25 +1652,23 @@ function renderGame() {
 
                     </div>
 
-
                     <div class="stat">
 
-                        <b id="income">
-                            ${money(income)}
-                        </b>
+                        <strong id="income">
+                            ${money(inc)}
+                        </strong>
 
                         <small>
-                            PER SECOND
+                            PER SEC
                         </small>
 
                     </div>
 
-
                     <div class="stat">
 
-                        <b id="level">
+                        <strong id="level">
                             LV ${state.level}
-                        </b>
+                        </strong>
 
                         <small>
                             LEVEL
@@ -931,15 +1676,12 @@ function renderGame() {
 
                     </div>
 
-
                 </div>
 
 
-                ${upgradesHTML}
-
+                ${html}
 
             </aside>
-
 
         </div>
 
@@ -948,118 +1690,111 @@ function renderGame() {
 }
 
 
-/* =========================
-   BUY UPGRADE
-========================= */
+/* =====================================
+   MONEY
+===================================== */
 
-function buyUpgrade(index) {
+function money(n){
 
-    const upgrade =
-        upgrades[index];
+    return "$" +
+        Math.floor(n)
+        .toLocaleString();
+
+}
+
+
+/* =====================================
+   BUY
+===================================== */
+
+function buy(i){
+
+    const u =
+        upgradeSets[current][i];
 
     const cost =
         Math.floor(
-            upgrade.price *
+            u[1] *
             Math.pow(
                 1.3,
-                state.owned[index]
+                state.owned[i]
             )
         );
 
+    if(state.money < cost){
 
-    if (state.money < cost) {
+        addLog("You need more money!");
 
         return;
 
     }
 
-
     state.money -= cost;
 
-    state.owned[index]++;
-
+    state.owned[i]++;
 
     const oldLevel =
         state.level;
 
-
-    const totalOwned =
+    const total =
         state.owned.reduce(
-            (a, b) => a + b,
+            (a,b)=>a+b,
             0
         );
 
-
     state.level =
         1 +
-        Math.floor(
-            totalOwned / 2
-        );
+        Math.floor(total/2);
 
+    save();
 
-    saveGame();
+    render();
 
-    renderGame();
+    if(state.level > oldLevel){
 
-
-    if (state.level > oldLevel) {
-
-        showLevelUp();
+        levelUp();
 
     }
 
 }
 
 
-/* =========================
-   GAME TICK
-========================= */
+/* =====================================
+   TICK
+===================================== */
 
-function tick() {
+function tick(){
 
-    const income =
-        getIncome();
+    const inc =
+        income();
 
+    state.money += inc;
 
-    state.money += income;
+    state.total += inc;
 
-    state.totalEarned += income;
-
-
-    saveGame();
+    save();
 
 
     const cash =
         document.getElementById("cash");
 
-    const incomeElement =
+    const incomeBox =
         document.getElementById("income");
 
 
-    if (cash) {
-
+    if(cash)
         cash.textContent =
             money(state.money);
 
-    }
+    if(incomeBox)
+        incomeBox.textContent =
+            money(inc);
 
 
-    if (incomeElement) {
+    if(inc > 0){
 
-        incomeElement.textContent =
-            money(income);
-
-    }
-
-
-    createCoin();
-
-
-    if (Math.random() < 0.3) {
-
-        addLog(
-            "A customer just paid +" +
-            money(income)
+        popup(
+            "+" + money(inc)
         );
 
     }
@@ -1067,87 +1802,137 @@ function tick() {
 }
 
 
-/* =========================
-   COIN ANIMATION
-========================= */
+/* =====================================
+   COOKIE CLICKER
+===================================== */
 
-function createCoin() {
+function cookieClick(){
 
-    const scene =
-        document.querySelector(".scene");
+    state.clicks++;
 
-    if (!scene) return;
+    state.money++;
+
+    state.total++;
+
+    popup("+$1 🍪");
+
+    save();
+
+    const cash =
+        document.getElementById("cash");
+
+    if(cash)
+        cash.textContent =
+            money(state.money);
+
+}
 
 
-    const coin =
+/* =====================================
+   PIZZA CLICK
+===================================== */
+
+function pizzaClick(){
+
+    const value =
+        2 +
+        state.owned[0] * 2;
+
+    state.money += value;
+
+    state.total += value;
+
+    popup("+" + money(value) + " 🍕");
+
+    addLog(
+        "Pizza sold for " +
+        money(value) +
+        "!"
+    );
+
+    save();
+
+    const cash =
+        document.getElementById("cash");
+
+    if(cash)
+        cash.textContent =
+            money(state.money);
+
+}
+
+
+/* =====================================
+   POPUP
+===================================== */
+
+function popup(text){
+
+    const world =
+        document.querySelector(".world");
+
+    if(!world)
+        return;
+
+
+    const el =
         document.createElement("div");
 
+    el.className =
+        "money-pop";
 
-    coin.className =
-        "coin";
+    el.textContent =
+        text;
 
+    el.style.left =
+        (30 + Math.random()*40) +
+        "%";
 
-    const amount =
-        getIncome();
+    el.style.top =
+        (45 + Math.random()*20) +
+        "%";
 
-
-    coin.textContent =
-        "+" + amount + " 💰";
-
-
-    coin.style.left =
-        (20 + Math.random() * 65) + "%";
-
-
-    coin.style.top =
-        (35 + Math.random() * 35) + "%";
-
-
-    scene.appendChild(coin);
-
+    world.appendChild(el);
 
     setTimeout(
-        () => coin.remove(),
-        1200
+        ()=>el.remove(),
+        1000
     );
 
 }
 
 
-/* =========================
-   ACTIVITY LOG
-========================= */
+/* =====================================
+   LOG
+===================================== */
 
-function addLog(message) {
+function addLog(text){
 
     const log =
         document.getElementById("log");
 
-
-    if (!log) return;
-
+    if(!log)
+        return;
 
     log.innerHTML =
-        message +
+        text +
         "<br>" +
         log.innerHTML;
 
 }
 
 
-/* =========================
+/* =====================================
    LEVEL UP
-========================= */
+===================================== */
 
-function showLevelUp() {
+function levelUp(){
 
     const box =
         document.createElement("div");
 
-
     box.className =
-        "levelUp";
-
+        "toast";
 
     box.innerHTML = `
 
@@ -1155,75 +1940,72 @@ function showLevelUp() {
             🎉 LEVEL UP!
         </h2>
 
-        <p>
+        <div>
             You reached Level ${state.level}!
-        </p>
+        </div>
 
     `;
 
-
     document.body.appendChild(box);
 
-
     setTimeout(
-        () => box.remove(),
+        ()=>box.remove(),
         1800
     );
 
 }
 
 
-/* =========================
-   RESET GAME
-========================= */
+/* =====================================
+   HOME
+===================================== */
 
-function resetGame() {
+function showHome(){
 
-    const answer =
-        confirm(
-            "Reset this tycoon? All progress will be deleted."
-        );
+    clearInterval(timer);
 
+    document
+        .getElementById("game")
+        .classList.add("hidden");
 
-    if (!answer) {
+    document
+        .getElementById("home")
+        .classList.remove("hidden");
 
-        return;
-
-    }
-
-
-    state = {
-
-        money: 100,
-
-        owned: [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-        ],
-
-        level: 1,
-
-        totalEarned: 0
-
-    };
-
-
-    saveGame();
-
-    renderGame();
+    window.scrollTo(0,0);
 
 }
 
 
-/* =========================
-   START
-========================= */
+/* =====================================
+   RESET
+===================================== */
 
-createCards();
+function resetGame(){
+
+    if(
+        !confirm(
+            "Reset this game? All progress will be deleted."
+        )
+    ){
+        return;
+    }
+
+    state =
+        newState();
+
+    save();
+
+    render();
+
+}
+
+
+/* =====================================
+   START APP
+===================================== */
+
+buildCards();
 
 </script>
 
