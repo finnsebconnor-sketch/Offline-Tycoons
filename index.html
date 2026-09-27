@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tycoon World</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #050b14;
+    color: white;
+}
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+header {
+    height: 70px;
+    background: #091525;
+    border-bottom: 1px solid #263b55;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.logo span {
+    color: #55ddff;
+}
+
+header button {
+    background: #172940;
+    color: white;
+}
+
+/* HOME */
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 25px;
+}
+
+.hero {
+    text-align: center;
+    padding: 45px 0;
+}
+
+.hero h1 {
+    font-size: clamp(45px, 8vw, 82px);
+    margin: 0;
+    background: linear-gradient(90deg, white, #56e4ff, #9c7cff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.hero p {
+    color: #9eb1c8;
+    font-size: 18px;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: linear-gradient(145deg, #12243b, #0a1423);
+    border: 1px solid #29425e;
+    border-radius: 20px;
+    padding: 19px;
+    min-height: 235px;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: #55dfff;
+    box-shadow: 0 10px 30px #0008;
+}
+
+.ico {
+    font-size: 48px;
+}
+
+.card h2 {
+    margin: 10px 0 5px;
+}
+
+.card p {
+    color: #91a6bc;
+    height: 45px;
+    font-size: 14px;
+}
+
+.card button {
+    width: 100%;
+    background: white;
+    color: #07101b;
+}
+
+.offline {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    background: #17304a;
+    padding: 5px 8px;
+    border-radius: 7px;
+    font-size: 10px;
+    color: #8fdfff;
+}
+
+/* GAME */
+
+.hidden {
+    display: none;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.head button {
+    background: #172940;
+    color: white;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 0.8fr;
+    gap: 18px;
+}
+
+/* GAME SCENE */
+
+.scene {
+    height: 510px;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #2c4764;
+    background:
+        linear-gradient(
+            #4ab9e6 0 52%,
+            #63a956 52% 78%,
+            #303942 78%
+        );
+}
+
+.scene:before {
+    content: "";
+    position: absolute;
+    left: 7%;
+    bottom: 22%;
+    width: 38%;
+    height: 38%;
+    background: #30465d;
+    border: 5px solid #1a293b;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 15px 15px #0003;
+}
+
+.scene:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 22%;
+    background: #303942;
+    border-top: 6px solid #6b777e;
+}
+
+.label {
+    position: absolute;
+    z-index: 4;
+    top: 15px;
+    left: 15px;
+    background: #06101ddd;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.actor {
+    position: absolute;
+    z-index: 5;
+    font-size: 38px;
+    animation: move 6s linear infinite;
+}
+
+.a1 {
+    left: 12%;
+    bottom: 20%;
+}
+
+.a2 {
+    left: 52%;
+    bottom: 30%;
+    animation-delay: -2s;
+}
+
+.a3 {
+    right: 12%;
+    bottom: 17%;
+    animation-delay: -4s;
+}
+
+@keyframes move {
+    0%, 100% {
+        transform: translateX(-20px);
+    }
+
+    50% {
+        transform: translateX(90px) translateY(-6px);
+    }
+}
+
+/* PANELS */
+
+.panel {
+    background: #0c1828;
+    border: 1px solid #29415d;
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.stat {
+    background: #122238;
+    padding: 12px;
+    border-radius: 11px;
+}
+
+.stat b {
+    display: block;
+    font-size: 18px;
+}
+
+.stat small {
+    color: #8298af;
+}
+
+.upgrade {
+    border: 1px solid #29415d;
+    border-radius: 14px;
+    padding: 13px;
+    margin-top: 10px;
+    background: #101f32;
+}
+
+.upgrade h3 {
+    margin: 0 0 5px;
+}
+
+.upgrade p {
+    font-size: 13px;
+    color: #90a6bd;
+}
+
+.upgrade button {
+    width: 100%;
+    background: #20b981;
+    color: white;
+}
+
+.upgrade button:disabled {
+    background: #29394c;
+    color: #7c8b9b;
+    cursor: not-allowed;
+}
+
+.log {
+    margin-top: 12px;
+    height: 105px;
+    overflow: auto;
+    background: #07111e;
+    border-radius: 10px;
+    padding: 10px;
+    color: #8fa6bd;
+    font-size: 12px;
+}
+
+.coin {
+    position: absolute;
+    z-index: 8;
+    color: #ffe26a;
+    font-weight: bold;
+    animation: coin 1.2s forwards;
+    pointer-events: none;
+}
+
+@keyframes coin {
+    to {
+        transform: translateY(-45px);
+        opacity: 0;
+    }
+}
+
+/* LEVEL UP */
+
+.levelUp {
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%);
+    background: #101f32;
+    border: 2px solid #55dfff;
+    border-radius: 20px;
+    padding: 25px 35px;
+    text-align: center;
+    z-index: 100;
+    box-shadow: 0 15px 50px #000b;
+    animation: pop 0.4s ease;
+}
+
+.levelUp h2 {
+    margin: 0 0 8px;
+}
+
+@keyframes pop {
+    from {
+        transform: translateX(-50%) scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:1000px) {
+    .games {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:650px) {
+    .games {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scene {
+        height: 390px;
+    }
+}
+
+@media(max-width:430px) {
+    .games {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎮 TYCOON <span>WORLD</span></div>
+    <button onclick="home()">GAMES</button>
+</header>
+
+<!-- HOME PAGE -->
+
+<main id="home">
+
+    <section class="hero">
+        <h1>TYCOON WORLD</h1>
+        <p>
+            10 playable tycoon games — build, upgrade and earn completely offline.
+        </p>
+    </section>
+
+    <section class="games" id="gameCards"></section>
+
+</main>
+
+<!-- GAME PAGE -->
+
+<main id="game" class="hidden"></main>
+
+<script>
+
+/* =========================
+   ALL 10 GAMES
+========================= */
+
+const games = {
+
+    factory: {
+        icon: "🏭",
+        name: "Factory Tycoon",
+        description: "Build machines and earn from production."
+    },
+
+    fastfood: {
+        icon: "🍔",
+        name: "Fast Food Tycoon",
+        description: "Serve customers and expand your restaurant."
+    },
+
+    football: {
+        icon: "⚽",
+        name: "Football Tycoon",
+        description: "Build a club, stadium and training centre."
+    },
+
+    hotel: {
+        icon: "🏨",
+        name: "Hotel Tycoon",
+        description: "Build rooms and attract more guests."
+    },
+
+    gaming: {
+        icon: "🎮",
+        name: "Gaming Tycoon",
+        description: "Open a gaming centre full of players."
+    },
+
+    supermarket: {
+        icon: "🛒",
+        name: "Supermarket Tycoon",
+        description: "Stock shelves and serve shoppers."
+    },
+
+    racing: {
+        icon: "🏎️",
+        name: "Racing Tycoon",
+        description: "Build a track and host races."
+    },
+
+    island: {
+        icon: "🏝️",
+        name: "Island Tycoon",
+        description: "Turn an island into a tourist resort."
+    },
+
+    fishing: {
+        icon: "🎣",
+        name: "Fishing Tycoon",
+        description: "Build boats, docks and a fishing business."
+    },
+
+    clothing: {
+        icon: "👕",
+        name: "Clothing Tycoon",
+        description: "Make clothes and grow your fashion brand."
+    }
+
+};
+
+
+/* =========================
+   UPGRADES
+========================= */
+
+const upgrades = [
+
+    {
+        name: "Starter Upgrade",
+        price: 50,
+        income: 2
+    },
+
+    {
+        name: "Business Upgrade",
+        price: 150,
+        income: 7
+    },
+
+    {
+        name: "Big Expansion",
+        price: 500,
+        income: 24
+    },
+
+    {
+        name: "Mega Upgrade",
+        price: 1500,
+        income: 80
+    },
+
+    {
+        name: "Empire Upgrade",
+        price: 5000,
+        income: 250
+    },
+
+    {
+        name: "Ultimate Upgrade",
+        price: 15000,
+        income: 800
+    }
+
+];
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let currentGame = "";
+let state = {};
+let timer = null;
+
+
+/* =========================
+   CREATE GAME CARDS
+========================= */
+
+function createCards() {
+
+    const container = document.getElementById("gameCards");
+
+    container.innerHTML = "";
+
+    for (const id in games) {
+
+        const game = games[id];
+
+        container.innerHTML += `
+
+            <article class="card">
+
+                <div class="offline">
+                    OFFLINE
+                </div>
+
+                <div class="ico">
+                    ${game.icon}
+                </div>
+
+                <h2>
+                    ${game.name}
+                </h2>
+
+                <p>
+                    ${game.description}
+                </p>
+
+                <button onclick="startGame('${id}')">
+                    PLAY NOW
+                </button>
+
+            </article>
+
+        `;
+    }
+}
+
+
+/* =========================
+   LOAD SAVE
+========================= */
+
+function loadGame(id) {
+
+    const saved =
+        localStorage.getItem("tycoon_" + id);
+
+    if (saved) {
+
+        return JSON.parse(saved);
+
+    }
+
+    return {
+
+        money: 100,
+
+        owned: [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+
+        level: 1,
+
+        totalEarned: 0
+
+    };
+
+}
+
+
+/* =========================
+   SAVE GAME
+========================= */
+
+function saveGame() {
+
+    localStorage.setItem(
+        "tycoon_" + currentGame,
+        JSON.stringify(state)
+    );
+
+}
+
+
+/* =========================
+   MONEY FORMAT
+========================= */
+
+function money(number) {
+
+    return "$" +
+        Math.floor(number)
+        .toLocaleString();
+
+}
+
+
+/* =========================
+   CALCULATE INCOME
+========================= */
+
+function getIncome() {
+
+    let income = 0;
+
+    for (let i = 0; i < upgrades.length; i++) {
+
+        income +=
+            state.owned[i] *
+            upgrades[i].income;
+
+    }
+
+    return income;
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function home() {
+
+    clearInterval(timer);
+
+    document
+        .getElementById("game")
+        .classList.add("hidden");
+
+    document
+        .getElementById("home")
+        .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(id) {
+
+    currentGame = id;
+
+    state = loadGame(id);
+
+    document
+        .getElementById("home")
+        .classList.add("hidden");
+
+    document
+        .getElementById("game")
+        .classList.remove("hidden");
+
+    renderGame();
+
+    clearInterval(timer);
+
+    timer = setInterval(tick, 1000);
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* =========================
+   RENDER GAME
+========================= */
+
+function renderGame() {
+
+    const game =
+        games[currentGame];
+
+    const income =
+        getIncome();
+
+    let upgradesHTML = "";
+
+    for (
+        let i = 0;
+        i < upgrades.length;
+        i++
+    ) {
+
+        const upgrade =
+            upgrades[i];
+
+        const cost =
+            Math.floor(
+                upgrade.price *
+                Math.pow(
+                    1.3,
+                    state.owned[i]
+                )
+            );
+
+        upgradesHTML += `
+
+            <div class="upgrade">
+
+                <h3>
+                    ${upgrade.name}
+                </h3>
+
+                <p>
+                    Owned:
+                    <span>
+                        ${state.owned[i]}
+                    </span>
+
+                    ·
+
+                    +${upgrade.income}
+                    cash/sec
+                </p>
+
+                <button
+                    onclick="buyUpgrade(${i})"
+                    ${state.money < cost ? "disabled" : ""}
+                >
+
+                    Buy for
+                    $${cost.toLocaleString()}
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    document.getElementById("game").innerHTML = `
+
+        <div class="head">
+
+            <div>
+
+                <h1>
+                    ${game.icon}
+                    ${game.name}
+                </h1>
+
+                <span style="color:#91a7bd">
+                    Runs locally and saves on this device.
+                </span>
+
+            </div>
+
+            <div>
+
+                <button onclick="home()">
+                    ← GAMES
+                </button>
+
+                <button onclick="resetGame()">
+                    RESET
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="layout">
+
+
+            <div>
+
+
+                <div class="scene">
+
+                    <div class="label">
+                        ${game.icon}
+                        LIVE TYCOON
+                    </div>
+
+
+                    <div class="actor a1">
+                        🧑
+                    </div>
+
+
+                    <div class="actor a2">
+                        ${game.icon}
+                    </div>
+
+
+                    <div class="actor a3">
+                        🚶
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="panel"
+                    style="margin-top:14px"
+                >
+
+                    <b>
+                        Business Activity
+                    </b>
+
+                    <div
+                        class="log"
+                        id="log"
+                    >
+
+                        Your business is open.<br>
+                        Customers are moving around.<br>
+                        Buy upgrades to increase your income.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <aside class="panel">
+
+
+                <div class="stats">
+
+
+                    <div class="stat">
+
+                        <b id="cash">
+                            ${money(state.money)}
+                        </b>
+
+                        <small>
+                            CASH
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <b id="income">
+                            ${money(income)}
+                        </b>
+
+                        <small>
+                            PER SECOND
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <b id="level">
+                            LV ${state.level}
+                        </b>
+
+                        <small>
+                            LEVEL
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+
+                ${upgradesHTML}
+
+
+            </aside>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   BUY UPGRADE
+========================= */
+
+function buyUpgrade(index) {
+
+    const upgrade =
+        upgrades[index];
+
+    const cost =
+        Math.floor(
+            upgrade.price *
+            Math.pow(
+                1.3,
+                state.owned[index]
+            )
+        );
+
+
+    if (state.money < cost) {
+
+        return;
+
+    }
+
+
+    state.money -= cost;
+
+    state.owned[index]++;
+
+
+    const oldLevel =
+        state.level;
+
+
+    const totalOwned =
+        state.owned.reduce(
+            (a, b) => a + b,
+            0
+        );
+
+
+    state.level =
+        1 +
+        Math.floor(
+            totalOwned / 2
+        );
+
+
+    saveGame();
+
+    renderGame();
+
+
+    if (state.level > oldLevel) {
+
+        showLevelUp();
+
+    }
+
+}
+
+
+/* =========================
+   GAME TICK
+========================= */
+
+function tick() {
+
+    const income =
+        getIncome();
+
+
+    state.money += income;
+
+    state.totalEarned += income;
+
+
+    saveGame();
+
+
+    const cash =
+        document.getElementById("cash");
+
+    const incomeElement =
+        document.getElementById("income");
+
+
+    if (cash) {
+
+        cash.textContent =
+            money(state.money);
+
+    }
+
+
+    if (incomeElement) {
+
+        incomeElement.textContent =
+            money(income);
+
+    }
+
+
+    createCoin();
+
+
+    if (Math.random() < 0.3) {
+
+        addLog(
+            "A customer just paid +" +
+            money(income)
+        );
+
+    }
+
+}
+
+
+/* =========================
+   COIN ANIMATION
+========================= */
+
+function createCoin() {
+
+    const scene =
+        document.querySelector(".scene");
+
+    if (!scene) return;
+
+
+    const coin =
+        document.createElement("div");
+
+
+    coin.className =
+        "coin";
+
+
+    const amount =
+        getIncome();
+
+
+    coin.textContent =
+        "+" + amount + " 💰";
+
+
+    coin.style.left =
+        (20 + Math.random() * 65) + "%";
+
+
+    coin.style.top =
+        (35 + Math.random() * 35) + "%";
+
+
+    scene.appendChild(coin);
+
+
+    setTimeout(
+        () => coin.remove(),
+        1200
+    );
+
+}
+
+
+/* =========================
+   ACTIVITY LOG
+========================= */
+
+function addLog(message) {
+
+    const log =
+        document.getElementById("log");
+
+
+    if (!log) return;
+
+
+    log.innerHTML =
+        message +
+        "<br>" +
+        log.innerHTML;
+
+}
+
+
+/* =========================
+   LEVEL UP
+========================= */
+
+function showLevelUp() {
+
+    const box =
+        document.createElement("div");
+
+
+    box.className =
+        "levelUp";
+
+
+    box.innerHTML = `
+
+        <h2>
+            🎉 LEVEL UP!
+        </h2>
+
+        <p>
+            You reached Level ${state.level}!
+        </p>
+
+    `;
+
+
+    document.body.appendChild(box);
+
+
+    setTimeout(
+        () => box.remove(),
+        1800
+    );
+
+}
+
+
+/* =========================
+   RESET GAME
+========================= */
+
+function resetGame() {
+
+    const answer =
+        confirm(
+            "Reset this tycoon? All progress will be deleted."
+        );
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    state = {
+
+        money: 100,
+
+        owned: [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+
+        level: 1,
+
+        totalEarned: 0
+
+    };
+
+
+    saveGame();
+
+    renderGame();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+createCards();
+
+</script>
+
+</body>
+</html>
